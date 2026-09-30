@@ -39,14 +39,14 @@ public sealed class LauncherUpdateHostInfoProviderContractTests
     {
         var installerScript = InstallerScript();
         var appMutex = FindAppMutex(installerScript);
-        var mutexName = FindMutexName(ReadProgramSource());
+        var mutexName = Program.MutexName;
 
         Assert.True(
             appMutex is not null,
             "installer/windows/Cafe.Launcher.iss 必须用 #define APP_MUTEX \"…\" 声明单实例互斥体名。");
         Assert.True(
             mutexName is not null,
-            "src/Cafe.Launcher/Program.cs 必须用 MutexName 常量声明单实例互斥体名。");
+            "src/Cafe.Launcher/Program.cs 必须由生产产品身份提供 MutexName。");
         Assert.True(
             string.Equals(appMutex, mutexName, StringComparison.Ordinal),
             $"安装器的 AppMutex（{appMutex}）与 Program.cs 的 MutexName（{mutexName}）不一致："
@@ -84,9 +84,6 @@ public sealed class LauncherUpdateHostInfoProviderContractTests
 
     private static string InstallerScript() =>
         File.ReadAllText(Path.Combine(TestRepository.Root, "installer", "windows", "Cafe.Launcher.iss"));
-
-    private static string ReadProgramSource() =>
-        File.ReadAllText(TestRepository.FromHostRoot("Program.cs"));
 
     private static int CountOccurrences(string text, string value)
     {

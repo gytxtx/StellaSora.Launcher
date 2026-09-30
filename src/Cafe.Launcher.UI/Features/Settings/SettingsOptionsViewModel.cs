@@ -18,12 +18,22 @@ internal sealed class SettingsOptionsViewModel
 
     public SettingsOptionsViewModel(
         LocalizationService localizer,
-        IDiskSpaceService diskSpaceService)
+        IDiskSpaceService diskSpaceService,
+        LauncherProductProfile? productProfile = null)
     {
+        ProductProfile = productProfile;
+        if (productProfile?.SupportsPackageMirror == false)
+        {
+            PatchUrlGroup.RemoveAt(1);
+        }
         this.localizer = localizer;
         this.diskSpaceService = diskSpaceService;
         Language = LocalizationService.GetLanguageOptions(localizer);
     }
+
+    public LauncherProductProfile? ProductProfile { get; }
+
+    public bool SupportsLauncherUpdates => ProductProfile?.SupportsLauncherUpdates != false;
 
     public ObservableCollection<SettingOption> BackgroundSource { get; } =
     [

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using Cafe.Launcher.Core.Models;
 
 namespace Cafe.Launcher.Core.Services;
@@ -33,6 +34,11 @@ public static class OfficialHashService
 
     public static string GetGameConfigHash(GameLauncherConfig config)
     {
+        if (config.Params is null)
+        {
+            return GetObjectHash([config.Tag ?? "", config.Name ?? "", config.Version ?? ""]);
+        }
+
         return GetObjectHash([
             config.Tag ?? "",
             config.Name ?? "",
@@ -57,6 +63,72 @@ public static class OfficialHashService
     public static bool IsGameConfigHashValid(GameLauncherConfig config)
     {
         return string.Equals(config.Vc, GetGameConfigHash(config), StringComparison.Ordinal);
+    }
+
+    /// <summary>按输入 JSON 的实际字段顺序验证，映射模型前保留缺字段与数组的区别。</summary>
+    internal static bool IsGameConfigHashValid(JsonElement config)
+    {
+        if (config.ValueKind != JsonValueKind.Object)
+        {
+            return false;
+        }
+
+        var values = new List<string>();
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        string? expected = null;
+        foreach (var property in config.EnumerateObject())
+        {
+            if (!seen.Add(property.Name))
+            {
+                return false;
+            }
+
+            if (property.Name == "vc")
+            {
+                if (property.Value.ValueKind != JsonValueKind.String)
+                {
+                    return false;
+                }
+
+                expected = property.Value.GetString();
+            }
+            else if (property.Name == "params")
+            {
+                if (property.Value.ValueKind != JsonValueKind.Array)
+                {
+                    return false;
+                }
+
+                var parameters = new List<string>();
+                foreach (var parameter in property.Value.EnumerateArray())
+                {
+                    if (parameter.ValueKind != JsonValueKind.String)
+                    {
+                        return false;
+                    }
+
+                    parameters.Add(parameter.GetString()!);
+                }
+
+                values.Add(string.Join(",", parameters));
+            }
+            else if (property.Name is "tag" or "name" or "version")
+            {
+                if (property.Value.ValueKind != JsonValueKind.String)
+                {
+                    return false;
+                }
+
+                values.Add(property.Value.GetString()!);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        return seen.Contains("tag") && seen.Contains("name") && seen.Contains("version")
+            && string.Equals(expected, GetObjectHash(values), StringComparison.Ordinal);
     }
 
     private static string GetObjectHash(IReadOnlyList<string> values)

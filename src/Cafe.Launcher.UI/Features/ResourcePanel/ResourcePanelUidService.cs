@@ -231,6 +231,10 @@ internal sealed partial class ResourcePanelUidService
 
     private string GetDefaultCookieLibraryPath()
     {
+        if (gameProfile.CookieLibraryRelativeSegments.Length == 0)
+        {
+            return "";
+        }
         return CookiePath(
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
             gameProfile.CookieLibraryRelativeSegments);

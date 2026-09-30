@@ -1,0 +1,9 @@
+{
+  "code": 200,
+  "data": {
+    "installer_background_img": "https://game-launcher-ss-cn.yostar.net/installer_background_img/141ee5f2971cc127db45d03c1b0152ea.png",
+    "installation_protocol_open": true,
+    "installation_protocol": "<p>已阅读并同意<a href=\"https://stellasora.yostar.cn/agreement\" target=\"_blank\">《用户协议》</a>和<a href=\"https://stellasora.yostar.cn/privacy_policy\" target=\"_blank\">《隐私政策》</a></p>"
+  },
+  "msg": "OK"
+}

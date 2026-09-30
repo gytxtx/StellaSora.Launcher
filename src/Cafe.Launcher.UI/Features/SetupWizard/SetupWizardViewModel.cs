@@ -35,6 +35,7 @@ internal partial class SetupWizardViewModel : ViewModelBase, IModalContentViewMo
     private readonly ILauncherDiagnostics diagnostics;
     private readonly IFilePickerService filePickerService;
     private readonly LauncherBuildIdentity? buildIdentity;
+    private readonly LauncherProductProfile? productProfile;
     private bool hasInitializedGamePath;
     private bool isDisposed;
     private CancellationTokenSource? gamePathStatusCancellationTokenSource;
@@ -52,7 +53,8 @@ internal partial class SetupWizardViewModel : ViewModelBase, IModalContentViewMo
         ILocalInstallationStateStore localInstallationStateStore,
         ILauncherDiagnostics diagnostics,
         IFilePickerService filePickerService,
-        LauncherBuildIdentity? buildIdentity = null)
+        LauncherBuildIdentity? buildIdentity = null,
+        LauncherProductProfile? productProfile = null)
     {
         this.localizer = localizer;
         this.gameInstallationPath = gameInstallationPath;
@@ -60,8 +62,9 @@ internal partial class SetupWizardViewModel : ViewModelBase, IModalContentViewMo
         this.diagnostics = diagnostics;
         this.filePickerService = filePickerService;
         this.buildIdentity = buildIdentity;
+        this.productProfile = productProfile;
 
-        var defaults = LauncherSettings.CreateDefaults(buildIdentity);
+        var defaults = LauncherSettings.CreateDefaults(buildIdentity, productProfile);
         language = defaults.Language;
         patchUrlGroup = defaults.PatchUrlGroup;
         gamePath = defaults.GamePath;
@@ -195,6 +198,8 @@ internal partial class SetupWizardViewModel : ViewModelBase, IModalContentViewMo
 
     // ── RadioButton helpers ───────────────────────────────────────
 
+    public bool SupportsPackageMirror => productProfile?.SupportsPackageMirror != false;
+
     public bool IsPatchUrlGroupCafe
     {
         get => PatchUrlGroup == PatchUrlGroups.Cafe;
@@ -287,7 +292,7 @@ internal partial class SetupWizardViewModel : ViewModelBase, IModalContentViewMo
     [RelayCommand]
     private async Task SkipAsync()
     {
-        await AsyncEvent.InvokeSequentiallyAsync(SettingsApplied, LauncherSettings.CreateDefaults(buildIdentity));
+        await AsyncEvent.InvokeSequentiallyAsync(SettingsApplied, LauncherSettings.CreateDefaults(buildIdentity, productProfile));
     }
 
     [RelayCommand]
@@ -451,7 +456,7 @@ internal partial class SetupWizardViewModel : ViewModelBase, IModalContentViewMo
     private LauncherSettings BuildSettings()
     {
         var normalizedPath = gameInstallationPath.NormalizeGamePath(GamePath);
-        var settings = LauncherSettings.CreateDefaults(buildIdentity);
+        var settings = LauncherSettings.CreateDefaults(buildIdentity, productProfile);
         settings.Language = Language;
         settings.PatchUrlGroup = PatchUrlGroup;
         settings.GamePath = normalizedPath;
@@ -488,6 +493,10 @@ internal partial class SetupWizardViewModel : ViewModelBase, IModalContentViewMo
                 false,
                 string.Empty)
         ];
+        if (productProfile?.SupportsPackageMirror == false)
+        {
+            DownloadSources = DownloadSources.Where(item => item.Code == PatchUrlGroups.Official).ToArray();
+        }
         OnPropertyChanged(nameof(DownloadSources));
     }
 

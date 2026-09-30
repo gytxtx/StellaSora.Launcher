@@ -148,47 +148,60 @@ internal partial class WindowChromeViewModel : ViewModelBase
         string patchUrlGroup,
         string cafeWebsiteUrl,
         string officialGameWebsiteUrl) =>
-        patchUrlGroup == PatchUrlGroups.Cafe
+        patchUrlGroup == PatchUrlGroups.Cafe && !string.IsNullOrWhiteSpace(cafeWebsiteUrl)
             ? cafeWebsiteUrl
             : officialGameWebsiteUrl;
 
     [RelayCommand]
     private void OpenAboutOfficialSite()
     {
-        openExternalUrl(productProfile.CafeWebsiteUrl);
+        openExternalUrl(string.IsNullOrWhiteSpace(productProfile.CafeWebsiteUrl)
+            ? gameProfile.OfficialWebsiteUrl : productProfile.CafeWebsiteUrl);
     }
 
-    [RelayCommand]
+    private bool CanOpenGitHubRepository() => !string.IsNullOrWhiteSpace(productProfile.GitHubReleaseRepositoryUrl);
+
+    [RelayCommand(CanExecute = nameof(CanOpenGitHubRepository))]
     private void OpenGitHubRepository()
     {
         openExternalUrl(productProfile.GitHubReleaseRepositoryUrl);
     }
 
-    [RelayCommand]
+    private bool CanOpenGitHubReleaseRepository() => !string.IsNullOrWhiteSpace(productProfile.GitHubReleaseRepositoryUrl);
+
+    [RelayCommand(CanExecute = nameof(CanOpenGitHubReleaseRepository))]
     private void OpenGitHubReleaseRepository()
     {
         openExternalUrl(productProfile.GitHubReleaseRepositoryUrl);
     }
 
-    [RelayCommand]
+    private bool CanOpenIssueTracker() => !string.IsNullOrWhiteSpace(productProfile.IssueTrackerUrl);
+
+    [RelayCommand(CanExecute = nameof(CanOpenIssueTracker))]
     private void OpenIssueTracker()
     {
         openExternalUrl(productProfile.IssueTrackerUrl);
     }
 
-    [RelayCommand]
+    private bool CanOpenHelpDocs() => !string.IsNullOrWhiteSpace(productProfile.HelpDocsUrl);
+
+    [RelayCommand(CanExecute = nameof(CanOpenHelpDocs))]
     private void OpenHelpDocs()
     {
         openExternalUrl(productProfile.HelpDocsUrl);
     }
 
-    [RelayCommand]
+    private bool CanOpenPrivacyPolicy() => !string.IsNullOrWhiteSpace(productProfile.PrivacyPolicyUrl);
+
+    [RelayCommand(CanExecute = nameof(CanOpenPrivacyPolicy))]
     private void OpenPrivacyPolicy()
     {
         openExternalUrl(productProfile.PrivacyPolicyUrl);
     }
 
-    [RelayCommand]
+    private bool CanOpenDefaultBackgroundArtwork() => !string.IsNullOrWhiteSpace(productProfile.DefaultBackgroundArtworkUrl);
+
+    [RelayCommand(CanExecute = nameof(CanOpenDefaultBackgroundArtwork))]
     private void OpenDefaultBackgroundArtwork()
     {
         openExternalUrl(productProfile.DefaultBackgroundArtworkUrl);

@@ -16,6 +16,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Spacing="{StaticResource Launcher.Spacing.Sm}">
                     <Button Classes="primary-action compact-action"
+                            IsVisible="{Binding Settings.Options.SupportsLauncherUpdates}"
                             Command="{Binding Settings.CheckForUpdatesCommand}"
                             AutomationProperties.Name="{Binding Shell.I18n[checkUpdates]}">
                         <StackPanel Classes="button-content">

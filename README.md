@@ -1,3 +1,11 @@
+# StellaSora Launcher（开发 fork）
+
+本目录基于 Cafe Launcher 继续开发星塔旅人国服启动器。目前已接入 Stella 官方 API、独立数据目录和产品能力隔离；自动更新、Cafe 镜像及资源面板关闭。完整安装、官方状态互读与反作弊兼容仍待实机验收，程序集名、图标和发行包元数据仍沿用上游。
+
+开发顺序见[后续计划](docs/design/yostar-reference-follow-up-plan-2026-09-30.md)，已验证的协议事实与复现方法见[API/CDN 取证](docs/research/stella-api-cdn-verification-2026-09-30.md)。下面保留的 Cafe 文档、徽章和发行链接是上游参考资料，不是本 fork 的发行通道。
+
+---
+
 # Cafe Launcher
 
 面向 Blue Archive 日服的社区第三方桌面启动器。基于 .NET 10 与 Avalonia 构建，把安装、更新、修复、启动和卸载集中在一个窗口里，并直接兼容官方启动器已经下载好的游戏目录。

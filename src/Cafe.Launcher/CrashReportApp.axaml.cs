@@ -31,7 +31,7 @@ public partial class CrashReportApp : Application
 
             var crashWindow = new CrashReportWindow(
                 report,
-                LauncherDataRoot.ForCurrentProcess(LauncherProfiles.Cafe.ProductName));
+                LauncherDataRoot.ForCurrentProcess(LauncherProfiles.CurrentProduct.ProductName));
             desktop.MainWindow = crashWindow;
         }
 

@@ -51,8 +51,7 @@ public sealed class LocalizationTerminologyTests
             "resourcePanelDescription",
             "resourcePanelLocalizedVersion",
             "setupWizardDownloadSourceCafeDescription",
-            "setupWizardDownloadSourceCafeRecommendationReason",
-            "setupWizardDownloadSourceHint"
+            "setupWizardDownloadSourceCafeRecommendationReason"
         };
 
         var localizedResourcesTerm = GetRequiredValue(locale, "resourcePanelLocalizedVersion");

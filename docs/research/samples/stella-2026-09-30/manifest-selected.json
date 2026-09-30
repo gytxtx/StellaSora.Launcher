@@ -1,0 +1,63 @@
+{
+  "sample_kind": "Selected original entries; not a complete installable manifest",
+  "source_url": "https://game-launcher-ss-cn.yostar.net/zip_online_config_json/1.13.0rUzo0gbw.json",
+  "original_body_sha256": "c2a0f30e46d0c00d538eacf013c5c91c1e7f64623d7002f9da13f0c4fa088a19",
+  "original_body_bytes": 1072682,
+  "original_root_fields": [
+    "source",
+    "file"
+  ],
+  "source": "/StellaSora_CN-1.13.0-game",
+  "original_file_count": 8183,
+  "original_total_file_bytes": 20297831850,
+  "executable_entries": [
+    {
+      "path": "/AntiCheatExpert/ACE-Service64.exe",
+      "hash": "8497848642197881968",
+      "size": "3493272"
+    },
+    {
+      "path": "/AntiCheatExpert/ACE-Setup64.exe",
+      "hash": "11851761189204996280",
+      "size": "1069392"
+    },
+    {
+      "path": "/UnityCrashHandler64.exe",
+      "hash": "1187912115009684763",
+      "size": "1185200"
+    },
+    {
+      "path": "/xtlr.exe",
+      "hash": "18094590205132865541",
+      "size": "687488"
+    },
+    {
+      "path": "/xtlr_Data/Plugins/x86_64/BLPlatform64/PCGamePlatform.exe",
+      "hash": "10894313443635886374",
+      "size": "7322072"
+    },
+    {
+      "path": "/xtlr_Data/Plugins/x86_64/BLPlatform64/game_security_protection.exe",
+      "hash": "2155727590044816657",
+      "size": "5639128"
+    }
+  ],
+  "script_entries": [],
+  "file": [
+    {
+      "path": "/AntiCheatExpert/ACE-BASE.sys",
+      "hash": "11638352398531338391",
+      "size": "4282536"
+    },
+    {
+      "path": "/AntiCheatExpert/ACE-Base.dat",
+      "hash": "9016732752180998163",
+      "size": "64244"
+    },
+    {
+      "path": "/AntiCheatExpert/ACE-Base64.dll",
+      "hash": "18368227150555594621",
+      "size": "42061616"
+    }
+  ]
+}

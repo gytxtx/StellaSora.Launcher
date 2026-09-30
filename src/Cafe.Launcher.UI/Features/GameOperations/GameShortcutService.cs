@@ -187,13 +187,12 @@ internal sealed class GameShortcutService : IGameShortcutService
 
         var target = targetResolution.Target!;
 
-        // The shortcut deliberately bypasses the launcher (unlike the Linux .desktop,
-        // which routes through --launch-game): double-clicking must behave like a
-        // direct game start. Running the game executable alone does not start the
-        // game, so the target is the distribution's own run.bat start script.
-        var startScriptPath = Path.Combine(
-            target.WorkingDirectory,
-            gameProfile.GameStartScriptFileName);
+        // Windows shortcuts start the game directly. BA distributions require their
+        // supplied script; Stella distributes no script, so its validated local
+        // executable is the target. The game profile declares this distinction.
+        var startScriptPath = string.IsNullOrWhiteSpace(gameProfile.GameStartScriptFileName)
+            ? target.ExecutablePath
+            : Path.Combine(target.WorkingDirectory, gameProfile.GameStartScriptFileName);
         if (!File.Exists(startScriptPath))
         {
             return new GameShortcutResult(GameShortcutStatus.GameNotResolved);

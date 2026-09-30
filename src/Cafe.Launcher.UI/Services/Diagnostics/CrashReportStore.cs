@@ -11,6 +11,7 @@ using System.Text.Json.Serialization;
 using Cafe.Launcher.UI.Constants;
 using Cafe.Launcher.UI.Helpers;
 using Cafe.Launcher.Core;
+using Cafe.Launcher.Core.Constants;
 using Cafe.Launcher.Core.Services;
 using Cafe.Launcher.Core.Services.Diagnostics;
 using Cafe.Launcher.Core.Helpers;
@@ -36,7 +37,7 @@ public sealed class CrashReportStore : ICrashReportLocator
     /// <summary>Temp location the store falls back to when the user-data root is unwritable.</summary>
     public static string DefaultFallbackDirectory => Path.Combine(
         Path.GetTempPath(),
-        "Cafe.Launcher",
+        LauncherProfiles.CurrentProduct.InstanceName,
         LauncherDataRoot.CrashReportsFolderName);
 
     /// <summary>

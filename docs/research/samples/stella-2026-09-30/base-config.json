@@ -1,0 +1,15 @@
+{
+  "code": 200,
+  "data": {
+    "launcher_background_img": "https://game-launcher-ss-cn.yostar.net/launcher_background_img/ad0b5c35936ecb249b38abd4abb3b344.jpg",
+    "launcher_background_img_crc64": "8722612434055043732",
+    "config_open": true,
+    "user_agreement": "https://stellasora.yostar.cn/agreement",
+    "privacy_policy": "https://stellasora.yostar.cn/privacy_policy",
+    "copyright_information": "Copyright © 2024 Shanghai Yostar Co., Ltd. All Rights Reserved.",
+    "notice_pop_open": false,
+    "notice_content": "<p>《星塔旅人》预下载已开启！10月20日即将正式发布。 我们期待与您相见，魔王大人！</p><p><br></p><p>【注意事项】</p><p>为防止造成您的游戏损坏，如您此前参与过《星塔旅人》测试阶段，请您卸载测试期间下载的应用程序，并删除测试期间下载的PC版启动器。</p>",
+    "exit_launcher_open": false
+  },
+  "msg": "OK"
+}

@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using Cafe.Launcher.UI.Features.Shell;
 using Cafe.Launcher.UI.Features.GameOperations;
 using Cafe.Launcher.UI.Features.Settings;
@@ -223,7 +223,7 @@ public sealed class ServiceConfigurationTests : IDisposable
         using var provider = services.BuildServiceProvider();
 
         Assert.Equal(
-            LauncherDataRoot.ForCurrentProcess(LauncherProfiles.Cafe.ProductName).Root,
+            LauncherDataRoot.ForCurrentProcess(LauncherProfiles.CurrentProduct.ProductName).Root,
             provider.GetRequiredService<LauncherDataRoot>().Root);
     }
 

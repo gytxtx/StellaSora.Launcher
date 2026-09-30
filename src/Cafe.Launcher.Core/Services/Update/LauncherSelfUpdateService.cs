@@ -22,6 +22,7 @@ internal sealed class LauncherSelfUpdateService : ILauncherSelfUpdateService
     private readonly IWindowsLauncherUpdateApplier updateApplier;
     private readonly LauncherDataRoot dataRoot;
     private readonly ILauncherDiagnostics diagnostics;
+    private readonly LauncherProductProfile? productProfile;
 
     /// <summary>Creates the coordinator that checks, verifies, and stages launcher update packages.</summary>
     /// <param name="downloader">Reads the checksum manifest and downloads update packages.</param>
@@ -34,13 +35,15 @@ internal sealed class LauncherSelfUpdateService : ILauncherSelfUpdateService
         ILauncherUpdateHostInfoProvider hostInfoProvider,
         IWindowsLauncherUpdateApplier updateApplier,
         LauncherDataRoot dataRoot,
-        ILauncherDiagnostics diagnostics)
+        ILauncherDiagnostics diagnostics,
+        LauncherProductProfile? productProfile = null)
     {
         this.downloader = downloader;
         this.hostInfoProvider = hostInfoProvider;
         this.updateApplier = updateApplier;
         this.dataRoot = dataRoot;
         this.diagnostics = diagnostics;
+        this.productProfile = productProfile;
     }
 
     /// <summary>
@@ -52,6 +55,10 @@ internal sealed class LauncherSelfUpdateService : ILauncherSelfUpdateService
     public LauncherUpdateInAppAvailability ResolveInAppAvailability(IReadOnlyList<ReleaseFile> files)
     {
         ArgumentNullException.ThrowIfNull(files);
+        if (productProfile?.SupportsLauncherUpdates == false)
+        {
+            return LauncherUpdateInAppAvailability.PackageUnverifiable;
+        }
         return AvailabilityOf(LauncherUpdatePackageSelector.Select(hostInfoProvider.GetHostInfo(), files));
     }
 
@@ -71,6 +78,10 @@ internal sealed class LauncherSelfUpdateService : ILauncherSelfUpdateService
     {
         ArgumentNullException.ThrowIfNull(files);
 
+        if (productProfile?.SupportsLauncherUpdates == false)
+        {
+            return LauncherSelfUpdatePreparation.External();
+        }
         var selection = LauncherUpdatePackageSelector.Select(hostInfoProvider.GetHostInfo(), files);
         if (!CanStartDownload(selection))
         {

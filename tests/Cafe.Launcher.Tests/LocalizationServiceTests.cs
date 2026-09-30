@@ -266,9 +266,9 @@ public sealed class LocalizationServiceTests
 
         var disclaimer = values["aboutDisclaimerText"];
 
+        Assert.Contains("\"StellaSora Launcher\"", disclaimer, StringComparison.Ordinal);
         Assert.Contains("\"Cafe Launcher\"", disclaimer, StringComparison.Ordinal);
-        Assert.Contains("\"BlueArchive.Cafe\"", disclaimer, StringComparison.Ordinal);
-        Assert.Contains("\"Blue Archive\"", disclaimer, StringComparison.Ordinal);
+        Assert.Contains("\"StellaSora\"", disclaimer, StringComparison.Ordinal);
         Assert.DoesNotContain("\\\"", disclaimer, StringComparison.Ordinal);
     }
 

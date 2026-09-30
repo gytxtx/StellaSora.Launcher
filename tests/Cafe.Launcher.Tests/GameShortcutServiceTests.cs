@@ -106,7 +106,7 @@ public sealed class GameShortcutServiceTests : IDisposable
         var result = await service.CreateShortcutInDirectoryAsync(snapshot, shortcutDirectory);
 
         Assert.Equal(GameShortcutStatus.GameNotResolved, result.Status);
-        Assert.False(File.Exists(Path.Combine(shortcutDirectory, "Blue Archive.lnk")));
+        Assert.False(File.Exists(Path.Combine(shortcutDirectory, "StellaSora.lnk")));
     }
 
     [Fact]
@@ -186,7 +186,7 @@ public sealed class GameShortcutServiceTests : IDisposable
         var result = await service.CreateShortcutInDirectoryAsync(snapshot, shortcutDirectory);
 
         Assert.Equal(GameShortcutStatus.Created, result.Status);
-        var expectedShortcutPath = Path.Combine(shortcutDirectory, "Blue Archive.lnk");
+        var expectedShortcutPath = Path.Combine(shortcutDirectory, "StellaSora.lnk");
         Assert.True(File.Exists(expectedShortcutPath));
         Assert.Equal(expectedShortcutPath, result.Detail);
     }
@@ -238,7 +238,7 @@ public sealed class GameShortcutServiceTests : IDisposable
         var result = await service.CreateShortcutInDirectoryAsync(snapshot, shortcutDirectory);
 
         Assert.Equal(GameShortcutStatus.GameNotResolved, result.Status);
-        Assert.False(File.Exists(Path.Combine(shortcutDirectory, "Blue Archive.lnk")));
+        Assert.False(File.Exists(Path.Combine(shortcutDirectory, "StellaSora.lnk")));
     }
 
     [WindowsFact]
@@ -330,7 +330,7 @@ public sealed class GameShortcutServiceTests : IDisposable
 
         var fileName = service.ResolveShortcutFileName(@"C:\games\BlueArchive_JP.exe");
 
-        Assert.Equal("Blue Archive", fileName);
+        Assert.Equal("StellaSora", fileName);
     }
 
     [Fact]
@@ -481,7 +481,7 @@ public sealed class GameShortcutServiceTests : IDisposable
     public void BuildDesktopEntry_WithLauncherPath_IncludesLaunchGameArgument()
     {
         var content = GameShortcutService.BuildDesktopEntry(
-            "Blue Archive",
+            "StellaSora",
             @"/opt/cafe-launcher/Cafe.Launcher",
             "/opt/cafe-launcher/Assets/app-icon.ico");
 
@@ -490,7 +490,7 @@ public sealed class GameShortcutServiceTests : IDisposable
             [
                 "[Desktop Entry]",
                 "Type=Application",
-                "Name=Blue Archive",
+                "Name=StellaSora",
                 $"Exec=\"/opt/cafe-launcher/Cafe.Launcher\" {Program.LaunchGameArgument}",
                 "Icon=/opt/cafe-launcher/Assets/app-icon.ico",
                 "Terminal=false",
@@ -503,7 +503,7 @@ public sealed class GameShortcutServiceTests : IDisposable
     public void BuildDesktopEntry_WhenIconMissing_OmitsIconLine()
     {
         var content = GameShortcutService.BuildDesktopEntry(
-            "Blue Archive",
+            "StellaSora",
             @"/opt/cafe-launcher/Cafe.Launcher",
             iconPath: null);
 
@@ -532,13 +532,13 @@ public sealed class GameShortcutServiceTests : IDisposable
         var result = await service.CreateShortcutInDirectoryAsync(snapshot, shortcutDirectory);
 
         Assert.Equal(GameShortcutStatus.Created, result.Status);
-        var entryPath = Path.Combine(shortcutDirectory, "Blue Archive.desktop");
+        var entryPath = Path.Combine(shortcutDirectory, "StellaSora.desktop");
         Assert.True(File.Exists(entryPath));
         Assert.Equal(entryPath, result.Detail);
         var content = File.ReadAllText(entryPath);
         Assert.Contains("[Desktop Entry]", content, StringComparison.Ordinal);
         Assert.Contains("Type=Application", content, StringComparison.Ordinal);
-        Assert.Contains("Name=Blue Archive", content, StringComparison.Ordinal);
+        Assert.Contains("Name=StellaSora", content, StringComparison.Ordinal);
         Assert.Contains($"Exec=\"{launcherPath}\" {Program.LaunchGameArgument}", content, StringComparison.Ordinal);
         Assert.Contains("Terminal=false", content, StringComparison.Ordinal);
         Assert.Contains("Categories=Game;", content, StringComparison.Ordinal);

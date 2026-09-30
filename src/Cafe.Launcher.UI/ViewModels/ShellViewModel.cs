@@ -11,6 +11,7 @@ using Cafe.Launcher.UI.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Cafe.Launcher.Core;
 using Cafe.Launcher.Core.Models;
+using Cafe.Launcher.Core.Constants;
 using Cafe.Launcher.Core.Helpers;
 
 namespace Cafe.Launcher.UI.ViewModels;
@@ -117,7 +118,7 @@ internal partial class ShellViewModel : ViewModelBase, IDisposable
 
     internal static string ResolveProductName(string productName, DateTime date, int randomIndex)
     {
-        if (date.Month != 12 || date.Day != 8)
+        if (productName != LauncherProfiles.Cafe.ProductName || date.Month != 12 || date.Day != 8)
         {
             return productName;
         }

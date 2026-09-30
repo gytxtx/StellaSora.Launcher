@@ -28,9 +28,9 @@ internal sealed class SettingsEditor : INotifyPropertyChanged, ISettingsDraftOwn
     /// only decides the default update channel (pre-release builds default to Beta); the composition
     /// root injects it, and a draft is replaced by the saved snapshot as soon as settings load.
     /// </summary>
-    public SettingsEditor(LauncherBuildIdentity? buildIdentity = null)
+    public SettingsEditor(LauncherBuildIdentity? buildIdentity = null, LauncherProductProfile? productProfile = null)
     {
-        var defaults = LauncherSettings.CreateDefaults(buildIdentity);
+        var defaults = LauncherSettings.CreateDefaults(buildIdentity, productProfile);
         current = defaults;
         snapshot = defaults.DeepClone();
         AttachCurrentListeners();

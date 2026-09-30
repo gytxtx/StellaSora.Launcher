@@ -17,6 +17,39 @@ namespace Cafe.Launcher.Core.Constants;
 /// </remarks>
 public static class LauncherProfiles
 {
+    private const string BundledBackgroundArtworkUrl = "https://www.pixiv.net/artworks/142932674";
+
+    /// <summary>本 fork 的生产身份；参考档案保留用于双样本协议契约。</summary>
+    public static LauncherProductProfile CurrentProduct => StellaSora;
+
+    public static YostarGameProfile CurrentGame => StellaSoraChina;
+
+    /// <summary>尚未建立独立发行仓库和自有服务，相关能力保持关闭。</summary>
+    public static LauncherProductProfile StellaSora { get; } = new()
+    {
+        ProductName = "StellaSora Launcher",
+        DefaultBackgroundArtworkUrl = BundledBackgroundArtworkUrl
+    };
+
+    /// <summary>按官方 CN 1.3.0 本地样本与 2026-09-30 在线响应验证的档案。</summary>
+    public static YostarGameProfile StellaSoraChina { get; } = new()
+    {
+        Tag = "StellaSora_CN",
+        RootFolderName = "YostarGames",
+        GameFolderName = "StellaSora_CN",
+        GameExecutableFileName = "xtlr.exe",
+        GameStartScriptFileName = "",
+        ApiBaseUrl = "https://launcher-api.yostar.net",
+        AuthorizationSalt = "872550AD59A235662C5B7D5F88CEBE4B",
+        AuthorizationVersion = "1.3.0",
+        GameConfigIncludesParameters = false,
+        OfficialPackageHost = "game-launcher-ss-cn.yostar.net",
+        PackageAssetPrefix = "",
+        RuntimeId = "stella-sora-cn",
+        OfficialWebsiteUrl = "https://stellasora.yostar.cn/",
+        CookieLibraryRelativeSegments = []
+    };
+
     /// <summary>本项目的产品档案（Cafe Launcher）。</summary>
     public static LauncherProductProfile Cafe { get; } = new()
     {
@@ -31,7 +64,7 @@ public static class LauncherProfiles
         PrivacyPolicyUrl =
             "https://github.com/bluearchive-cafe/Cafe.Launcher.Avalonia/blob/main/PRIVACY.md",
         IssueTrackerUrl = "https://github.com/bluearchive-cafe/Cafe.Launcher.Avalonia/issues",
-        DefaultBackgroundArtworkUrl = "https://www.pixiv.net/artworks/142932674"
+        DefaultBackgroundArtworkUrl = BundledBackgroundArtworkUrl
     };
 
     /// <summary>
@@ -53,6 +86,7 @@ public static class LauncherProfiles
         ApiBaseUrl = "https://api-launcher-jp.yo-star.com",
         AuthorizationSalt = "DE7108E9B2842FD460F4777702727869",
         AuthorizationVersion = "1.7.2",
+        GameConfigIncludesParameters = true,
         OfficialPackageHost = "launcher-pkg-ba-jp.yo-star.com",
         PackageAssetPrefix = "/prod/BlueArchive_JP/launcher_background_img/",
         RuntimeId = "blue-archive-jp",

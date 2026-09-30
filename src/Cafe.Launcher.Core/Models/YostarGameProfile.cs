@@ -26,7 +26,7 @@ public sealed record YostarGameProfile
     /// <summary>游戏客户端本体的可执行文件名（不是官方配置里的宿主名）。</summary>
     public required string GameExecutableFileName { get; init; }
 
-    /// <summary>游戏目录里官方分发自带的启动脚本名。</summary>
+    /// <summary>游戏目录里官方分发自带的启动脚本名；未分发脚本时为空，直接使用本地验证后的启动入口。</summary>
     public required string GameStartScriptFileName { get; init; }
 
     /// <summary>官方 launcher API 基址。不同游戏可能落在不同的官方域名上。</summary>
@@ -37,6 +37,12 @@ public sealed record YostarGameProfile
 
     /// <summary>签名 <c>head.version</c> 回传的启动器版本；见 <see cref="Constants.LauncherProfiles"/>。</summary>
     public required string AuthorizationVersion { get; init; }
+
+    /// <summary>
+    /// 本地启动配置是否写入 params 字段。旧版 Stella CN 不包含该字段；
+    /// 缺字段与空数组参与 vc 计算的值数不同，不能互相归一。
+    /// </summary>
+    public bool GameConfigIncludesParameters { get; init; } = true;
 
     /// <summary>官方安装包主机（清单与游戏文件的官方下载域）。</summary>
     public required string OfficialPackageHost { get; init; }
@@ -58,6 +64,7 @@ public sealed record YostarGameProfile
 
     /// <summary>
     /// 游戏客户端 Cookie 库在用户配置目录下的相对路径（BestHTTP 的实现细节，供资源面板读取 UID）。
+    /// 未取证且不提供资源面板的游戏使用空数组，消费方不推断 Cookie 路径。
     /// </summary>
     public required string[] CookieLibraryRelativeSegments { get; init; }
 

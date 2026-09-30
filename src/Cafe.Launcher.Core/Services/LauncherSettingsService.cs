@@ -25,6 +25,7 @@ internal sealed class LauncherSettingsService : ILauncherSettingsService, IDispo
     private readonly LauncherDataRoot dataRoot;
     private readonly ILauncherDiagnostics? diagnostics;
     private readonly LauncherBuildIdentity? buildIdentity;
+    private readonly LauncherProductProfile? productProfile;
     private readonly Func<bool> isLinuxPlatform;
     private static readonly JsonSerializerOptions jsonOptions = JsonDefaults.Indented;
 
@@ -36,12 +37,14 @@ internal sealed class LauncherSettingsService : ILauncherSettingsService, IDispo
         LauncherDataRoot dataRoot,
         ILauncherDiagnostics? diagnostics = null,
         Func<bool>? isLinuxPlatform = null,
-        LauncherBuildIdentity? buildIdentity = null)
+        LauncherBuildIdentity? buildIdentity = null,
+        LauncherProductProfile? productProfile = null)
     {
         ArgumentNullException.ThrowIfNull(dataRoot);
         this.dataRoot = dataRoot;
         this.diagnostics = diagnostics;
         this.buildIdentity = buildIdentity;
+        this.productProfile = productProfile;
         this.isLinuxPlatform = isLinuxPlatform ?? OperatingSystem.IsLinux;
     }
 
@@ -78,7 +81,7 @@ internal sealed class LauncherSettingsService : ILauncherSettingsService, IDispo
 
     private LauncherSettings CreateDefaultSettings()
     {
-        return LauncherSettings.CreateDefaults(buildIdentity);
+        return LauncherSettings.CreateDefaults(buildIdentity, productProfile);
     }
 
     /// <summary>
@@ -149,6 +152,11 @@ internal sealed class LauncherSettingsService : ILauncherSettingsService, IDispo
             {
                 setter(settings, fallback);
             }
+        }
+
+        if (productProfile?.SupportsPackageMirror == false)
+        {
+            settings.PatchUrlGroup = PatchUrlGroups.Official;
         }
 
         settings.CustomThemeColor = NormalizeColor(settings.CustomThemeColor);

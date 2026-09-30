@@ -21,22 +21,22 @@ namespace Cafe.Launcher;
 
 sealed class Program
 {
-    private const string MutexName = @"Local\Cafe_Launcher_SI";
-    private const string SignalName = @"Local\Cafe_Launcher_SI_Show";
+    internal static readonly string MutexName = @"Local\" + LauncherProfiles.CurrentProduct.InstanceName + "_SI";
+    private static readonly string SignalName = @"Local\" + LauncherProfiles.CurrentProduct.InstanceName + "_SI_Show";
 
     /// <summary>
     /// Unix 单实例锁的名字（只作锁套接字文件名的哈希键）：.NET 的 <c>Local\</c>
     /// 命名空间在 Unix 上按 POSIX 会话隔离，不能承载跨启动环境的单实例语义（ADR-034），
     /// 因此 Unix 的所有权判定走数据根内的锁套接字，互斥量只在 Windows 使用。
     /// </summary>
-    internal const string LockSignalName = @"Local\Cafe_Launcher_SI_Lock";
+    internal static readonly string LockSignalName = @"Local\" + LauncherProfiles.CurrentProduct.InstanceName + "_SI_Lock";
 
     /// <summary>
     /// Signal the first instance raises its launch-game listener on, so a second
     /// <c>--launch-game</c> invocation forwards the request instead of starting
     /// a duplicate process.
     /// </summary>
-    internal const string LaunchGameSignalName = @"Local\Cafe_Launcher_SI_LaunchGame";
+    internal static readonly string LaunchGameSignalName = @"Local\" + LauncherProfiles.CurrentProduct.InstanceName + "_SI_LaunchGame";
 
     /// <summary>CLI argument that launches the game through the full launcher pipeline.</summary>
     internal const string LaunchGameArgument = Cafe.Launcher.Core.Constants.LauncherConstants.LaunchGameArgument;
@@ -123,7 +123,7 @@ sealed class Program
 
         // 进程根在此解析一次：随后所有 pre-DI 落点（崩溃快照、日志器、首启探测、
         // 单实例信号）与 DI 容器共用同一个实例。
-        var dataRoot = LauncherDataRoot.ForCurrentProcess(LauncherProfiles.Cafe.ProductName);
+        var dataRoot = LauncherDataRoot.ForCurrentProcess(LauncherProfiles.CurrentProduct.ProductName);
 
         var reportStore = new CrashReportStore(
             dataRoot,

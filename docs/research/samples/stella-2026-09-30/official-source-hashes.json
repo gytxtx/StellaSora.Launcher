@@ -1,0 +1,26 @@
+[
+  {
+    "path": "package.json",
+    "sha256": "ee36dbb5999d44dacb6c25e1394fa5bd93c89ea4cc6e39d6be2cf4b0416f7abe"
+  },
+  {
+    "path": "out/main/index.js",
+    "sha256": "d96b0824409d7ccc78ad59b7facf99beab07e95740605e4eae6f470ecd2a9a38"
+  },
+  {
+    "path": "out/main/index-52e4c114.js",
+    "sha256": "d40eb4aa7deb0b8f16d1f3cf492fe9b6fb6cf40c675d4867c1da66511b784eb0"
+  },
+  {
+    "path": "out/renderer/assets/main-2d82028d.js",
+    "sha256": "59abff82020bee377476e07c6e6e5ddb09c274a90aefb9ece4e62e515b1c6c7f"
+  },
+  {
+    "path": "out/renderer/assets/GameControl-48cc65aa.js",
+    "sha256": "1b1f5ebd7f14b21a6a35da1f6551218063d3b6601688b1cea8639c6eb174a6e7"
+  },
+  {
+    "path": "node_modules/@launcher/utils/src/crypto.ts",
+    "sha256": "e5c3d12c3175a1d9e2628865ccd0f068886648d3085fbfc22663bd90fd35faa1"
+  }
+]

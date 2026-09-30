@@ -397,7 +397,7 @@ internal sealed class ShellLifecycle : IDisposable
     /// <summary>Restores default settings from the debug panel.</summary>
     public async Task ResetSettingsToDefaultsAsync()
     {
-        await savedSettingsWriter.ReplaceAsync(LauncherSettings.CreateDefaults(buildIdentity));
+        await savedSettingsWriter.ReplaceAsync(LauncherSettings.CreateDefaults(buildIdentity, settings.Options.ProductProfile));
         await RefreshAsync();
     }
 

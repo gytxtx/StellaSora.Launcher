@@ -1,0 +1,207 @@
+{
+  "official_launcher_version": "1.3.0",
+  "game_tag": "StellaSora_CN",
+  "authentication_headers_persisted": false,
+  "game_state_written": false,
+  "binaries_executed": false,
+  "observations": [
+    {
+      "name": "game-config",
+      "sampled_at_utc": "2026-09-30T10:35:30.9646261+00:00",
+      "method": "GET",
+      "url": "https://launcher-api.yostar.net/api/launcher/game/config",
+      "status": 200,
+      "requested_range": null,
+      "response_headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Content-Length": "333"
+      },
+      "bytes_read": 333,
+      "body_limit": 262144,
+      "body_limit_reached": false,
+      "body_sha256": "7b6931a3a26878e63dc91f4eb0973dc5b4dd32c2087c3c659610574d056d4347",
+      "api_code": 200
+    },
+    {
+      "name": "base-config",
+      "sampled_at_utc": "2026-09-30T10:35:31.4511368+00:00",
+      "method": "GET",
+      "url": "https://launcher-api.yostar.net/api/launcher/base/config",
+      "status": 200,
+      "requested_range": null,
+      "response_headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Content-Length": "954"
+      },
+      "bytes_read": 954,
+      "body_limit": 262144,
+      "body_limit_reached": false,
+      "body_sha256": "3b25ca1e5a0de79e63ec0e8c60be848612dcd784ec63281d074fc6fd0bd94235",
+      "api_code": 200
+    },
+    {
+      "name": "installation-config",
+      "sampled_at_utc": "2026-09-30T10:35:31.5017988+00:00",
+      "method": "GET",
+      "url": "https://launcher-api.yostar.net/api/launcher/installation/config",
+      "status": 200,
+      "requested_range": null,
+      "response_headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Content-Length": "498"
+      },
+      "bytes_read": 498,
+      "body_limit": 262144,
+      "body_limit_reached": false,
+      "body_sha256": "e37991928cdf29c46c9894d169b1afd6a5377c370aec9fc7a435b9168b618756",
+      "api_code": 200
+    },
+    {
+      "name": "cdn-config",
+      "sampled_at_utc": "2026-09-30T10:35:31.5491566+00:00",
+      "method": "GET",
+      "url": "https://launcher-api.yostar.net/api/launcher/advanced/game/download/cdn",
+      "status": 200,
+      "requested_range": null,
+      "response_headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Content-Length": "145"
+      },
+      "bytes_read": 145,
+      "body_limit": 262144,
+      "body_limit_reached": false,
+      "body_sha256": "15381ac754cd05124de86f5ed7b2f0a0bb968579aa9798bd187b6433d7bb4acd",
+      "api_code": 200
+    },
+    {
+      "name": "social-media-resource",
+      "sampled_at_utc": "2026-09-30T10:35:31.5967335+00:00",
+      "method": "GET",
+      "url": "https://launcher-api.yostar.net/api/launcher/social/media/resource",
+      "status": 200,
+      "requested_range": null,
+      "response_headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Content-Length": "817"
+      },
+      "bytes_read": 817,
+      "body_limit": 262144,
+      "body_limit_reached": false,
+      "body_sha256": "11d78a14d14c057018c4b61a71f52fa1baf8e3d930aea188db8ed69f02d2a00e",
+      "api_code": 200
+    },
+    {
+      "name": "manifest-location",
+      "sampled_at_utc": "2026-09-30T10:35:31.6485325+00:00",
+      "method": "GET",
+      "url": "https://launcher-api.yostar.net/api/launcher/game/config/json?version=1.13.0&file_path=prod%2FZIP_TEMP%2FStellaSora_CN_TEMP%2FStellaSora_CN-1.13.0-game.zip",
+      "status": 200,
+      "requested_range": null,
+      "response_headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Content-Length": "122"
+      },
+      "bytes_read": 122,
+      "body_limit": 262144,
+      "body_limit_reached": false,
+      "body_sha256": "b7fbcbea46afefd5bece03aef0e20395c0e6e5af877466afa3890750ea61217e",
+      "api_code": 200
+    },
+    {
+      "name": "manifest",
+      "sampled_at_utc": "2026-09-30T10:35:31.6967895+00:00",
+      "method": "GET",
+      "url": "https://game-launcher-ss-cn.yostar.net/zip_online_config_json/1.13.0rUzo0gbw.json",
+      "status": 200,
+      "requested_range": null,
+      "response_headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "1072682",
+        "Accept-Ranges": "bytes",
+        "ETag": "\"7ADCC3660C4B83457C4B15B5B6618D4C\"",
+        "x-oss-hash-crc64ecma": "2674359228036542070"
+      },
+      "bytes_read": 1072682,
+      "body_limit": 4194304,
+      "body_limit_reached": false,
+      "body_sha256": "c2a0f30e46d0c00d538eacf013c5c91c1e7f64623d7002f9da13f0c4fa088a19"
+    },
+    {
+      "name": "primary-executable-head",
+      "sampled_at_utc": "2026-09-30T10:35:33.0807747+00:00",
+      "method": "HEAD",
+      "url": "https://game-launcher-ss-cn.yostar.net/StellaSora_CN-1.13.0-game/xtlr.exe",
+      "status": 200,
+      "requested_range": null,
+      "response_headers": {
+        "Content-Type": "application/x-msdos-program",
+        "Content-Length": "687488",
+        "Accept-Ranges": "bytes",
+        "ETag": "\"A01C21E87015457C1EB7AC581970D767\"",
+        "x-oss-hash-crc64ecma": "18094590205132865541"
+      },
+      "bytes_read": 0,
+      "body_limit": 262144,
+      "body_limit_reached": false
+    },
+    {
+      "name": "primary-executable-range",
+      "sampled_at_utc": "2026-09-30T10:35:33.1215168+00:00",
+      "method": "GET",
+      "url": "https://game-launcher-ss-cn.yostar.net/StellaSora_CN-1.13.0-game/xtlr.exe",
+      "status": 206,
+      "requested_range": "bytes=0-4095",
+      "response_headers": {
+        "Content-Type": "application/x-msdos-program",
+        "Content-Length": "4096",
+        "Content-Range": "bytes 0-4095/687488",
+        "Accept-Ranges": "bytes",
+        "ETag": "\"A01C21E87015457C1EB7AC581970D767\"",
+        "x-oss-hash-crc64ecma": "18094590205132865541"
+      },
+      "bytes_read": 4096,
+      "body_limit": 4096,
+      "body_limit_reached": true,
+      "body_sha256": "b8322e2ec1839b7cd4bda43f30c4b0ec2cea692a1d4f9fffc5fb3abda9979d36",
+      "prefix_hex": "4D5A90000300000004000000FFFF0000"
+    },
+    {
+      "name": "backup-executable-head",
+      "sampled_at_utc": "2026-09-30T10:35:33.1823444+00:00",
+      "method": "HEAD",
+      "url": "https://game-launcher-ss-cn-bk.yostar.net/StellaSora_CN-1.13.0-game/xtlr.exe",
+      "status": 200,
+      "requested_range": null,
+      "response_headers": {
+        "Content-Type": "application/x-msdos-program",
+        "Content-Length": "687488",
+        "Accept-Ranges": "bytes",
+        "ETag": "\"A01C21E87015457C1EB7AC581970D767\"",
+        "x-oss-hash-crc64ecma": "18094590205132865541"
+      },
+      "bytes_read": 0,
+      "body_limit": 262144,
+      "body_limit_reached": false
+    },
+    {
+      "name": "backup-executable-range",
+      "sampled_at_utc": "2026-09-30T10:35:33.2420935+00:00",
+      "method": "GET",
+      "url": "https://game-launcher-ss-cn-bk.yostar.net/StellaSora_CN-1.13.0-game/xtlr.exe",
+      "status": 206,
+      "requested_range": "bytes=0-4095",
+      "response_headers": {
+        "Content-Type": "application/x-msdos-program",
+        "Content-Length": "4096",
+        "Content-Range": "bytes 0-4095/687488",
+        "ETag": "\"A01C21E87015457C1EB7AC581970D767\"",
+        "x-oss-hash-crc64ecma": "18094590205132865541"
+      },
+      "bytes_read": 4096,
+      "body_limit": 4096,
+      "body_limit_reached": true,
+      "body_sha256": "b8322e2ec1839b7cd4bda43f30c4b0ec2cea692a1d4f9fffc5fb3abda9979d36",
+      "prefix_hex": "4D5A90000300000004000000FFFF0000"
+    }
+  ]
+}

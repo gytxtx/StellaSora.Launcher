@@ -380,7 +380,8 @@ public sealed class LauncherSettings : SettingsModel
     /// Creates default settings with pre-release builds defaulting to the beta update channel.
     /// Shared by <see cref="Services.LauncherSettingsService"/> and <see cref="Services.SettingsEditor"/>.
     /// When the system UI language is Chinese, defaults to the Cafe patch URL group so Chinese
-    /// players get the Cafe-localised version without manually changing the download source.
+    /// players get the Cafe-localised version without manually changing the download source,
+    /// only when the injected product provides that mirror. Tests without a product keep legacy defaults.
     /// </summary>
     /// <param name="buildIdentity">
     /// The host-supplied build identity. The pre-release channel default is decided by
@@ -388,7 +389,7 @@ public sealed class LauncherSettings : SettingsModel
     /// never by reflecting over whatever assembly happens to be the entry point. Callers for which
     /// the channel is irrelevant (motion preferences) may omit it and get the stable channel.
     /// </param>
-    public static LauncherSettings CreateDefaults(LauncherBuildIdentity? buildIdentity = null)
+    public static LauncherSettings CreateDefaults(LauncherBuildIdentity? buildIdentity = null, LauncherProductProfile? productProfile = null)
     {
         var settings = new LauncherSettings();
 
@@ -399,7 +400,7 @@ public sealed class LauncherSettings : SettingsModel
 
         // Chinese users are the primary audience for Cafe-localised game resources;
         // default to Cafe source so they get Chinese text without manual setup.
-        if (IsChineseUICulture())
+        if (productProfile?.SupportsPackageMirror != false && IsChineseUICulture())
         {
             settings.PatchUrlGroup = PatchUrlGroups.Cafe;
         }

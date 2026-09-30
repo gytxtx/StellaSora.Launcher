@@ -1,0 +1,39 @@
+{
+  "code": 200,
+  "data": {
+    "social_media_resource_open": true,
+    "social_media_resource_list": [
+      {
+        "social_media_channel": "官网",
+        "qr_img": "",
+        "jump_url": "https://stellasora.yostar.cn/"
+      },
+      {
+        "social_media_channel": "微信公众号",
+        "qr_img": "https://game-launcher-ss-cn.yostar.net/qr_code/8f480ec0fc05d9e114fdade231e332d2.png",
+        "jump_url": ""
+      },
+      {
+        "social_media_channel": "bilibili",
+        "qr_img": "",
+        "jump_url": "https://space.bilibili.com/3546645778139206"
+      },
+      {
+        "social_media_channel": "微博",
+        "qr_img": "",
+        "jump_url": "https://weibo.com/u/7908879593"
+      },
+      {
+        "social_media_channel": "抖音",
+        "qr_img": "",
+        "jump_url": "https://www.douyin.com/user/MS4wLjABAAAAT3j29k3S5UyIOo2xM6fktUXDr4CL7aRzMykveT_veVg1Lk_JXbY0Z_NFCwVj0RDN?previous_page=app_code_link"
+      },
+      {
+        "social_media_channel": "联系客服",
+        "qr_img": "",
+        "jump_url": "https://account.yostar.cn/"
+      }
+    ]
+  },
+  "msg": "OK"
+}

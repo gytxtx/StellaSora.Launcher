@@ -670,7 +670,7 @@ internal sealed class DownloadSession : IDisposable
             return false;
         }
 
-        if (!config.Params.SequenceEqual(gameConfig.GameStartParams ?? [], StringComparer.Ordinal))
+        if (!(config.Params ?? []).SequenceEqual(gameConfig.GameStartParams ?? [], StringComparer.Ordinal))
         {
             return false;
         }

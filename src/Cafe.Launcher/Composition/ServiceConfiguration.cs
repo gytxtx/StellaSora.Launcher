@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Cafe.Launcher.Core.Composition;
 using Cafe.Launcher.Core.Constants;
+using Cafe.Launcher.Core.Models;
 using Cafe.Launcher.Constants;
 using Cafe.Launcher.Services.Diagnostics;
 using Cafe.Launcher.UI.Services.Diagnostics;
@@ -29,13 +30,17 @@ public static class ServiceConfiguration
         this IServiceCollection services,
         UnifiedLogger? existingLogger = null,
         IFatalCrashService? existingFatalCrashService = null,
-        LauncherDataRoot? launcherDataRoot = null)
+        LauncherDataRoot? launcherDataRoot = null,
+        YostarGameProfile? gameProfile = null,
+        LauncherProductProfile? productProfile = null)
     {
         // 进程根在这里解析一次，其余登记项与所有消费方共用这一个实例——
         // 「数据放哪」不再是各模块各自读一次的进程级静态。产品身份由档案提供：
         // pre-DI 阶段没有容器，产品名必须在调用点写出来。
+        productProfile ??= LauncherProfiles.CurrentProduct;
+        gameProfile ??= LauncherProfiles.CurrentGame;
         var dataRoot = launcherDataRoot
-            ?? LauncherDataRoot.ForCurrentProcess(LauncherProfiles.Cafe.ProductName);
+            ?? LauncherDataRoot.ForCurrentProcess(productProfile.ProductName);
         var buildIdentity = BuildInfo.Identity;
 
         // Core 服务先入容器：逆序释放时表现层先析构。游戏与产品档案在这里交给容器，
@@ -43,8 +48,8 @@ public static class ServiceConfiguration
         services.AddLauncherCore(
             buildIdentity,
             dataRoot,
-            LauncherProfiles.BlueArchiveJapan,
-            LauncherProfiles.Cafe);
+            gameProfile,
+            productProfile);
 
         // 宿主自有：拉起独立崩溃报告进程要用本进程的可执行文件与崩溃参数，
         // 是进程入口的知识。接口由 UI 声明（消费者在那边），实现在这里。

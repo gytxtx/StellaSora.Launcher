@@ -80,7 +80,8 @@ internal sealed class LauncherApiClient : ILauncherApiClient
 
     private string? ResolveLauncherBackgroundUrl(string? value)
     {
-        return value?.StartsWith(gameProfile.PackageAssetPrefix, StringComparison.Ordinal) == true
+        return !string.IsNullOrWhiteSpace(gameProfile.PackageAssetPrefix)
+            && value?.StartsWith(gameProfile.PackageAssetPrefix, StringComparison.Ordinal) == true
             ? gameProfile.OfficialPackageBaseUrl + value
             : value;
     }

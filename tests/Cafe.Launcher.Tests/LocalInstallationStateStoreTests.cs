@@ -51,7 +51,7 @@ public sealed class LocalInstallationStateStoreTests : IDisposable
         Assert.Equal("1.2.3", config.Version);
         Assert.Equal("1.2.3", manifest.Version);
         Assert.Equal("BlueArchive", config.Name);
-        Assert.Equal(["--test"], config.Params);
+        Assert.Equal(["--test"], Assert.IsType<string[]>(config.Params));
         var file = Assert.Single(manifest.Files);
         Assert.Equal("BlueArchive.exe", file.Path);
         Assert.Equal("4", file.Size);

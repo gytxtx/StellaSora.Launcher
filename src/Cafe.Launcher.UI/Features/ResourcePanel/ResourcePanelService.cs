@@ -30,6 +30,8 @@ internal sealed class ResourcePanelService
     }
 
     /// <summary>Path to the cookie library file for localized error messages.</summary>
+    public bool IsAvailable => apiClient.IsAvailable;
+
     public string CookieLibraryPath => uidService.CookieLibraryPath;
 
     /// <summary>Resolve effective UID (cookie precedence, then settings fallback).</summary>

@@ -175,7 +175,9 @@ internal partial class ResourcePanelViewModel : ViewModelBase, IDisposable, IMod
 
     // ── Commands ──────────────────────────────────────────────────────────
 
-    [RelayCommand]
+    public bool IsAvailable => resourcePanelService.IsAvailable;
+
+    [RelayCommand(CanExecute = nameof(IsAvailable))]
     private async Task OpenResourcePanelAsync()
     {
         if (!string.Equals(patchUrlGroup, PatchUrlGroups.Cafe, StringComparison.Ordinal))
@@ -190,6 +192,10 @@ internal partial class ResourcePanelViewModel : ViewModelBase, IDisposable, IMod
     /// <summary>Open the panel directly without Cafe-source check. Called by parent after switching source.</summary>
     public async Task OpenPanelDirectlyAsync()
     {
+        if (!IsAvailable)
+        {
+            return;
+        }
         IsResourcePanelVisible = true;
         await LoadResourcePanelAsync(lifetimeCts.Token);
     }

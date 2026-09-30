@@ -40,8 +40,8 @@ public static class GameCompatibilityPaths
 
     private static string GetLauncherDataRoot() =>
         OperatingSystem.IsWindows()
-            ? LauncherDataRoot.ForCurrentProcess(LauncherProfiles.Cafe.ProductName).Root
-            : Path.Combine(GetUnixDataHome(), "cafe-launcher");
+            ? LauncherDataRoot.ForCurrentProcess(LauncherProfiles.CurrentProduct.ProductName).Root
+            : Path.Combine(GetUnixDataHome(), LauncherProfiles.CurrentProduct.UnixDataDirectoryName);
 
     private static string GetUnixDataHome()
     {

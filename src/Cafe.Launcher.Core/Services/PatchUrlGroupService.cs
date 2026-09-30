@@ -22,7 +22,7 @@ internal sealed class PatchUrlGroupService
 
     public PatchUrlGroupDefinition Resolve(string? group)
     {
-        return group == PatchUrlGroups.Cafe
+        return group == PatchUrlGroups.Cafe && productProfile.SupportsPackageMirror
             ? new PatchUrlGroupDefinition
             {
                 Code = PatchUrlGroups.Cafe,
@@ -70,7 +70,7 @@ internal sealed class PatchUrlGroupService
     {
         response.PrimaryCdn = RewritePackageUrl(response.PrimaryCdn, group);
         response.BackUpCdn = RewritePackageUrl(response.BackUpCdn, group);
-        if (group == PatchUrlGroups.Cafe)
+        if (group == PatchUrlGroups.Cafe && productProfile.SupportsPackageMirror)
         {
             // The Cafe mirror is a single host; the official backup path does not
             // exist there, so primary and backup share the same URL.

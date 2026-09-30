@@ -194,6 +194,7 @@
                             <StackPanel Spacing="{StaticResource Launcher.Spacing.Sm}">
                                 <RadioButton Classes="wizard-option"
                                         GroupName="SetupWizardDownloadSource"
+                                        IsVisible="{Binding Dialogs.SetupWizard.SupportsPackageMirror}"
                                         IsChecked="{Binding Dialogs.SetupWizard.IsPatchUrlGroupCafe, Mode=TwoWay}"
                                         AutomationProperties.Name="{Binding Shell.I18n[downloadSourceCafe]}">
                                     <StackPanel>

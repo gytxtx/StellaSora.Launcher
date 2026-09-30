@@ -6,6 +6,7 @@ using Avalonia.Threading;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Cafe.Launcher.Composition;
+using Cafe.Launcher.Core.Constants;
 using Cafe.Launcher.UI.Features.Settings;
 using Cafe.Launcher.Core.Services.Diagnostics;
 using Cafe.Launcher.Testing;
@@ -35,7 +36,10 @@ internal static class HeadlessTestHost
         Action<ServiceCollection>? configure = null)
     {
         var services = new ServiceCollection();
-        services.AddLauncherServices(launcherDataRoot: directory.DataRoot);
+        // Existing headless journeys exercise the BA/Cafe reference behavior. The
+        // Stella product boundary has its own tests through the production defaults.
+        services.AddLauncherServices(launcherDataRoot: directory.DataRoot,
+            gameProfile: LauncherProfiles.BlueArchiveJapan, productProfile: LauncherProfiles.Cafe);
         configure?.Invoke(services);
         services.AddSingleton(_ => new UnifiedLogger(directory.Sub("logs")));
         return services.BuildServiceProvider();

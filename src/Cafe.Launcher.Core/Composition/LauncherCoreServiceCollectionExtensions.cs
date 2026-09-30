@@ -116,7 +116,8 @@ public static class LauncherCoreServiceCollectionExtensions
         services.TryAddSingleton(sp => new LauncherSettingsService(
             sp.GetRequiredService<LauncherDataRoot>(),
             sp.GetService<ILauncherDiagnostics>(),
-            buildIdentity: buildIdentity));
+            buildIdentity: buildIdentity,
+            productProfile: productProfile));
         // 已保存设置的唯一写入方。草稿所有者由表现层登记（ISettingsDraftOwner）——写入方不认识
         // 具体编辑器，UI 线程编排留在实现方。
         services.TryAddSingleton<ISavedSettingsWriter, SavedSettingsWriter>();
@@ -174,5 +175,5 @@ public static class LauncherCoreServiceCollectionExtensions
     /// </summary>
     private static LauncherSettings SavedSettingsSnapshot(IServiceProvider services) =>
         services.GetService<ISettingsDraftOwner>()?.GetSavedSnapshot()
-        ?? LauncherSettings.CreateDefaults(services.GetRequiredService<LauncherBuildIdentity>());
+        ?? LauncherSettings.CreateDefaults(services.GetRequiredService<LauncherBuildIdentity>(), services.GetRequiredService<LauncherProductProfile>());
 }

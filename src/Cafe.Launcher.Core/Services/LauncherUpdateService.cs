@@ -68,6 +68,11 @@ internal sealed partial class LauncherUpdateService : ILauncherUpdateService
         string updateChannel,
         CancellationToken cancellationToken = default)
     {
+        if (!productProfile.SupportsLauncherUpdates)
+        {
+            return LauncherUpdateCheckResult.Succeeded(currentVersion, [], isUpdateAvailable: false);
+        }
+
         try
         {
             var releases = await FetchReleasesAsync(cancellationToken).ConfigureAwait(false);
@@ -197,6 +202,12 @@ internal sealed partial class LauncherUpdateService : ILauncherUpdateService
     private async Task<List<LauncherReleaseResponse>?> FetchReleasesAsync(
         CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(productProfile.LauncherApiBaseUrl)
+            || string.IsNullOrWhiteSpace(productProfile.LauncherReleasesPath))
+        {
+            return await FetchGitHubReleasesAsync(cancellationToken).ConfigureAwait(false);
+        }
+
         try
         {
             return await FetchProxyReleasesAsync(cancellationToken).ConfigureAwait(false);

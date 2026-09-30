@@ -169,7 +169,7 @@ public sealed class InstallerContractTests
     {
         var script = ReadProjectFile("installer/windows/Cafe.Launcher.iss");
 
-        Assert.Contains("Local\\Cafe_Launcher_SI", script, StringComparison.Ordinal);
+        Assert.Contains(Program.MutexName, script, StringComparison.Ordinal);
         Assert.Contains("AppMutex={#APP_MUTEX}", script, StringComparison.Ordinal);
         Assert.Contains("CloseApplications=no", script, StringComparison.Ordinal);
         Assert.DoesNotContain("taskkill", script, StringComparison.OrdinalIgnoreCase);

@@ -18,7 +18,7 @@
 #endif
 
 ; The launcher's Windows single-instance mutex (Program.cs: MutexName).
-#define APP_MUTEX "Local\Cafe_Launcher_SI"
+#define APP_MUTEX "Local\StellaSora_Launcher_SI"
 #define EXECUTABLE_NAME "Cafe.Launcher.exe"
 ; Uninstall registration key written by this installer (AppId + "_is1").
 #define INNO_UNINSTALL_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\{803fa671-62db-49fd-b99b-85635f5118ba}_is1"

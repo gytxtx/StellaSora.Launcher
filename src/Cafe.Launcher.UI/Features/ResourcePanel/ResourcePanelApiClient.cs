@@ -36,6 +36,17 @@ internal sealed class ResourcePanelApiClient
         this.transport = transport;
     }
 
+    public bool IsAvailable => !string.IsNullOrWhiteSpace(apiBaseUrl);
+
+    private Uri ResolveUri(string path)
+    {
+        if (!IsAvailable)
+        {
+            throw new InvalidOperationException("This product does not provide a resource panel service.");
+        }
+        return new Uri(apiBaseUrl + path);
+    }
+
     public async Task<ResourcePanelStatusResponse> GetStatusAsync(
         CancellationToken cancellationToken = default)
     {
@@ -77,7 +88,7 @@ internal sealed class ResourcePanelApiClient
             + $"&voice={Uri.EscapeDataString(voice)}"
             + $"&media={Uri.EscapeDataString(media)}";
         var remote = await transport.GetStreamAsync(
-            new Uri(apiBaseUrl + path),
+            ResolveUri(path),
             CreateOptions(),
             cancellationToken).ConfigureAwait(false);
         using var body = remote.Content;
@@ -88,7 +99,7 @@ internal sealed class ResourcePanelApiClient
         CancellationToken cancellationToken)
     {
         return await transport.GetJsonAsync<T>(
-            new Uri(apiBaseUrl + path),
+            ResolveUri(path),
             CreateOptions(),
             cancellationToken).ConfigureAwait(false);
     }

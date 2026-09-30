@@ -261,7 +261,9 @@ internal partial class SettingsViewModel : ViewModelBase, IDisposable, IModalCon
 
     // ── Commands ──────────────────────────────────────────────────────────
 
-    [RelayCommand]
+    private bool CanCheckForUpdates() => Options.SupportsLauncherUpdates;
+
+    [RelayCommand(CanExecute = nameof(CanCheckForUpdates))]
     private async Task CheckForUpdatesAsync()
     {
         var savedSettings = editor.GetSavedSnapshot();

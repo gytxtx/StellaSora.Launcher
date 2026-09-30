@@ -87,7 +87,7 @@
                 </controls:SettingRow.Action>
             </controls:SettingRow>
 
-            <controls:SettingSelect Title="{Binding Shell.I18n[launcherUpdateChannel]}"
+            <controls:SettingSelect IsVisible="{Binding Settings.Options.SupportsLauncherUpdates}" Title="{Binding Shell.I18n[launcherUpdateChannel]}"
                                     Description="{Binding Shell.I18n[launcherUpdateChannelDescription]}"
                                     AutomationName="{Binding Shell.I18n[launcherUpdateChannel]}"
                                     ItemsSource="{Binding Settings.Options.UpdateChannel}"
