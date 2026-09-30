@@ -1,296 +1,132 @@
-# StellaSora Launcher（开发 fork）
+# StellaSora Launcher
 
-本目录基于 Cafe Launcher 继续开发星塔旅人国服启动器。目前已接入 Stella 官方 API、独立数据目录和产品能力隔离；自动更新、Cafe 镜像及资源面板关闭。完整安装、官方状态互读与反作弊兼容仍待实机验收，程序集名、图标和发行包元数据仍沿用上游。
+面向《星塔旅人》国服（StellaSora CN）的第三方桌面启动器，基于 [Cafe Launcher](https://github.com/bluearchive-cafe/Cafe.Launcher.Avalonia) fork，使用 .NET 10 与 Avalonia 开发。目前用于技术评估与开发验证，尚未完成正式发行验收。
 
-开发顺序见[后续计划](docs/design/yostar-reference-follow-up-plan-2026-09-30.md)，已验证的协议事实与复现方法见[API/CDN 取证](docs/research/stella-api-cdn-verification-2026-09-30.md)。下面保留的 Cafe 文档、徽章和发行链接是上游参考资料，不是本 fork 的发行通道。
+本项目与 Yostar 官方无隶属关系。游戏内容、商标及官方素材的权利归各自权利人所有。游戏官网：[stellasora.yostar.cn](https://stellasora.yostar.cn/)。
 
----
+[本项目仓库](https://github.com/gytxtx/StellaSora.Launcher) · [后续计划](docs/design/yostar-reference-follow-up-plan-2026-09-30.md) · [官方 API/CDN 取证](docs/research/stella-api-cdn-verification-2026-09-30.md) · [MIT 许可证](LICENSE)
 
-# Cafe Launcher
+## 当前进度
 
-面向 Blue Archive 日服的社区第三方桌面启动器。基于 .NET 10 与 Avalonia 构建，把安装、更新、修复、启动和卸载集中在一个窗口里，并直接兼容官方启动器已经下载好的游戏目录。
+截至 2026-09-30，已完成官方协议与独立产品身份接入，并在 Windows 实机观察到主页展示和游戏文件下载。
 
-[![Stars](https://img.shields.io/github/stars/bluearchive-cafe/Cafe.Launcher.Avalonia?style=flat-square&label=Stars)](https://github.com/bluearchive-cafe/Cafe.Launcher.Avalonia)
-[![正式版 Release](https://img.shields.io/github/v/release/bluearchive-cafe/Cafe.Launcher.Avalonia?style=flat-square&color=%233fb950&label=%E6%AD%A3%E5%BC%8F%E7%89%88)](https://github.com/bluearchive-cafe/Cafe.Launcher.Avalonia/releases/latest)
-[![测试版 Release](https://img.shields.io/github/v/release/bluearchive-cafe/Cafe.Launcher.Avalonia?include_prereleases&style=flat-square&label=%E6%B5%8B%E8%AF%95%E7%89%88)](https://github.com/bluearchive-cafe/Cafe.Launcher.Avalonia/releases)
-[![下载量](https://img.shields.io/github/downloads/bluearchive-cafe/Cafe.Launcher.Avalonia/total?style=flat-square&label=%E4%B8%8B%E8%BD%BD%E9%87%8F&logo=github)](https://github.com/bluearchive-cafe/Cafe.Launcher.Avalonia/releases/latest)<br/>
-[![Build](https://img.shields.io/github/actions/workflow/status/bluearchive-cafe/Cafe.Launcher.Avalonia/build.yml?style=flat-square&label=Build)](https://github.com/bluearchive-cafe/Cafe.Launcher.Avalonia/actions/workflows/build.yml)
-![.NET 版本](https://img.shields.io/badge/.NET-10-512bd4?style=flat-square)
-![GitHub Repo size](https://img.shields.io/github/repo-size/bluearchive-cafe/Cafe.Launcher.Avalonia?style=flat-square&color=3cb371)
-[![GitHub Repo Languages](https://img.shields.io/github/languages/top/bluearchive-cafe/Cafe.Launcher.Avalonia?style=flat-square)](https://github.com/bluearchive-cafe/Cafe.Launcher.Avalonia/search?l=c%23)
-[![License](https://img.shields.io/github/license/bluearchive-cafe/Cafe.Launcher.Avalonia?style=flat-square)](./LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-2E7DF6?style=flat-square)](#平台支持与发行包)
-
-[下载](https://github.com/bluearchive-cafe/Cafe.Launcher.Avalonia/releases) · [安装与首次使用](https://docs.bluearchive.cafe/cafe-launcher/installation) · [常见问题](https://docs.bluearchive.cafe/cafe-launcher/faq) · [反馈指南](https://docs.bluearchive.cafe/cafe-launcher/feedback) · [开发者指南](#开发者指南)
-
-> [!IMPORTANT]
-> Cafe Launcher 是社区维护的第三方项目，与 Nexon、Nexon Games、Yostar 及 Blue Archive 官方无隶属或合作关系。使用前请阅读[隐私政策](./PRIVACY.md)。
-
-![Cafe Launcher 主视觉](./docs/assets/key-visual.png)
-
-## 目录
-
-- [Cafe Launcher](#cafe-launcher)
-  - [目录](#目录)
-  - [启动器能做什么](#启动器能做什么)
-  - [平台支持与发行包](#平台支持与发行包)
-  - [快速开始](#快速开始)
-  - [与官方启动器的区别](#与官方启动器的区别)
-  - [Linux 支持（实验性）](#linux-支持实验性)
-    - [配置兼容运行环境](#配置兼容运行环境)
-    - [启动器在 Linux 上额外做的事](#启动器在-linux-上额外做的事)
-    - [已验证的组合与边界](#已验证的组合与边界)
-  - [壁纸来源](#壁纸来源)
-    - [内置默认壁纸](#内置默认壁纸)
-    - [远程壁纸](#远程壁纸)
-    - [自定义壁纸](#自定义壁纸)
-  - [帮助与反馈](#帮助与反馈)
-  - [开发者指南](#开发者指南)
-    - [环境要求](#环境要求)
-    - [构建与运行](#构建与运行)
-    - [常用命令](#常用命令)
-    - [代码结构](#代码结构)
-    - [架构要点](#架构要点)
-    - [测试](#测试)
-    - [参与贡献](#参与贡献)
-  - [本地数据与许可](#本地数据与许可)
-  - [致谢](#致谢)
-
-## 启动器能做什么
-
-Cafe Launcher 既能接管官方启动器已经下载好的游戏目录，也能从零下载并管理游戏文件。它提供可暂停、可续传的下载任务、多种下载源与启动校验选项，并支持多语言界面、主题定制和本地诊断。
-
-- **游戏管理：** 安装、增量更新、修复、启动和卸载；可继续使用官方启动器下载的游戏目录，两者的清单与配置文件互相兼容。
-- **下载控制：** 最多 10 个并发传输、断点续传、暂停与继续、速度限制，以及下载完成后的 CRC64 校验。
-- **启动校验：** 可在本地清单、远程清单和跳过检查三种验证模式之间选择，行为与官方启动器对齐。
-- **桌面体验：** English、简体中文、繁體中文和日本語界面；支持系统、浅色和深色主题，以及背景与主题色定制。
-- **本地化资源与诊断：** 通过 UID 管理 Cafe 下载源提供的本地化资源；查看或导出日志以协助排查问题。
-- **启动器更新：** Windows 可直接在应用内更新（下载后经发布附带的 `SHA256SUMS` 校验再应用）；macOS 与 Linux 转到发布页。
-
-设置、下载任务状态和日志都保存在本地。启动器不会修改游戏进程，也不会向游戏注入代码。
-
-## 平台支持与发行包
-
-| 平台 | 支持状态 | 发行包 |
-| --- | --- | --- |
-| Windows 10 1809+ / Windows 11，x64 | 正式支持 | 安装程序（推荐）、便携 ZIP |
-| macOS，Apple Silicon | 实验性；暂不支持启动游戏 | `.app` 压缩包 |
-| Linux，x64 | 实验性 | `.deb`、`.rpm`、AppImage、`.tar.gz` |
-
-发行包已包含 .NET Runtime，无需另行安装。
-
-macOS 版本目前可用于安装、更新和修复游戏，暂不提供启动游戏所需的兼容运行层。Linux 版可通过 Wine、UMU 或 Proton 启动游戏，详细说明见 [Linux 支持（实验性）](#linux-支持实验性)。
-
-「测试版」指预发布版本；日常使用建议从发布页选择最新的正式版。macOS 与 Linux 尚未完成与 Windows 同等程度的适配和测试，请留意对应版本的发布说明。
-
-## 快速开始
-
-1. 打开[发布页](https://github.com/bluearchive-cafe/Cafe.Launcher.Avalonia/releases)，下载与你的平台匹配的安装包。Windows 用户通常选择安装程序；需要免安装时选择便携 ZIP。
-2. 启动 Cafe Launcher，按首次设置向导选择界面语言、下载源、游戏目录和代理方式。
-3. 如果已经安装游戏，选择现有的 `BlueArchive_JP` 目录；如果尚未安装，选择安装位置并从主界面开始安装。
-4. 后续可在主界面更新或启动游戏，也可在设置中修复或卸载。
-
-完整步骤见[安装与首次使用](https://docs.bluearchive.cafe/cafe-launcher/installation)。设置、[游戏操作](https://docs.bluearchive.cafe/cafe-launcher/operations)、[资源面板](https://docs.bluearchive.cafe/cafe-launcher/resource-panel)和[卸载与数据](https://docs.bluearchive.cafe/cafe-launcher/uninstall)指南也可在文档站查看。
-
-## 与官方启动器的区别
-
-Cafe Launcher 与官方启动器**共用同一个游戏目录与清单格式**，安装协议、下载校验方式保持对齐，可以在两者之间来回切换而不必重下游戏。差异集中在操作方式与周边能力上。下表依据[对官方启动器 v1.7.2 的静态对比研究](./docs/research/official-launcher-v1.7.2-comparison.md)整理——该结论针对特定历史版本，官方现行版本的行为可能已不同。
-
-| 方面 | 官方启动器（v1.7.2） | Cafe Launcher |
-| --- | --- | --- |
-| 游戏运行中 | 安装阶段用 `taskkill /F /T` 强杀游戏目录内的同名进程后继续覆盖文件 | 拒绝写入并说明原因，绝不代用户结束游戏；写入前二次检查，能识别反作弊等占目录的相关进程 |
-| 下载控制 | 任务写入浏览器 `localStorage`，重启后自动重进；无会话级暂停 | 暂停/继续、速度限制、退出后恢复，区分「用户停止」与「进程退出」 |
-| 卸载范围 | 删除清单文件与状态文件 | 默认范围相近（另删桌面快捷方式）；可选「彻底清除」安装目录与受管兼容前缀，保留用户自定义 Prefix |
-| 本地化资源 | 未见对应能力 | 通过 UID 管理 Cafe 下载源提供的汉化资源（独有功能） |
-| 诊断与隐私 | 本地日志 + 按远端开关的云端日志上报 + AIHelp 客服 | 只留本地：日志查看/导出、崩溃报告，无任何远程遥测 |
-| 界面语言 | 日服包固定日语 | English / 简体中文 / 繁體中文 / 日本語 |
-| 平台 | Windows | Windows 正式支持；macOS 与 Linux 实验性（见下） |
-
-官方有而 Cafe 未实现的部分也如实列出：`clickCode` 文件搬运、自更新时的游戏目录暂移/恢复、AIHelp 客服入口。若需要「原位替换官方安装程序」，这几项请先阅读对比研究文档中的边界说明。
-
-## Linux 支持（实验性）
-
-Linux 版除了安装、更新、修复游戏外，还可以通过兼容运行环境**启动游戏**。整条链路（包括 XIGNCODE3 反作弊）已在下面列出的组合上实机验证过，但只有这一个组合，请据此设定预期。
-
-### 配置兼容运行环境
-
-在「设置 → 游戏 → 兼容运行环境」中选择启动方式：
-
-| 设置项 | 说明 |
+| 项目 | 状态 |
 | --- | --- |
-| 运行环境 | 「自动」优先尝试 UMU，也可显式选择「UMU / Proton」或「Wine」；不选「Windows（原生）」即可走兼容层 |
-| 运行器路径 | 留空自动检测 `umu-run` / `wine`，也可手动指定可执行文件 |
-| Proton 路径 | 自定义 UMU 使用的 Proton 构建，留空由 UMU 自动选择 |
-| Prefix 路径 | 留空由启动器按运行器管理相互隔离的 Prefix，也可指定自建 Prefix |
+| 官方 API、游戏清单、主备 CDN | 已验证 API 响应、HEAD 与 Range 请求，证据及复现方法见取证文档 |
+| 官方背景、轮播与公告 | 已在运行界面观察到展示 |
+| 游戏下载 | 已观察到实际下载进度；完整安装完成仍待验收 |
+| 本地配置与清单 | 已实现 Stella 格式及双游戏协议契约测试；与官方启动器互读仍待实机验收 |
+| 产品隔离 | 已切换 Stella 产品文案、游戏档案、数据目录与单实例标识 |
+| 游戏首次启动、进程家族与反作弊 | 待实机验收 |
+| 启动器自动更新 | 保持关闭，尚未配置独立发行通道 |
+| Cafe 镜像、资源面板及专属服务 | 已关闭 |
+| 程序集、图标与安装包身份 | 仍沿用上游，正式发行前需要完成迁移 |
 
-### 启动器在 Linux 上额外做的事
+仓库已建立，但这不等于已配置发行通道。当前从源码运行；请勿将上游 Cafe 发行包当作本项目的下载入口。
 
-- **启动前环境预检**：检查 Prefix 位置是否可写、所在挂载点是否禁用执行（`noexec`）、文件系统是否支持符号链接，命中阻断级问题时就地说明原因与改法（例如把前缀移到 ext4 上）；发行版与大小写敏感性只记录、不据此拒绝。
-- **运行中保护**：按启动器写入的所有权标记识别由它启动的游戏（标记会经 UMU/pressure-vessel 透传到整个进程族，启动器退出后依然有效），同时识别由官方启动器、桌面脚本等其他入口启动、仍占用安装目录的进程。
-- **UID 自动读取**：资源面板可在配置的兼容前缀中找到游戏 Cookie 并读出 UID，不必手动填写。
-- **更全的诊断信息**：导出内容包含运行器进程快照与输出（stdout/stderr）、GPU 与 Vulkan 探测、桌面会话类型、前缀元数据、本机已安装的 Proton 构建清单，反馈问题时不必手动收集。
-- **单实例与系统代理**：同一登录会话内只允许一个实例，二次启动唤起已有窗口；代理「系统」档读取 GNOME 的系统代理设置。
+## 已接入能力
 
-### 已验证的组合与边界
+- 使用 Stella 国服官方 API 获取游戏配置、清单、公告、轮播与远程背景，下载保留官方主备 CDN。
+- 复用上游安装、更新、修复、卸载与下载管线，包括最多 10 路并发、Range 续传、暂停/恢复、限速、临时文件暂存与 CRC64 校验。
+- 兼容 Stella 配置中缺少 `params` 的格式，保留原始字段顺序参与校验，并拒绝跨游戏配置与清单。
+- 通过独立游戏及产品档案注入身份，保留 Blue Archive/Cafe 参考档案用于协议与界面回归测试。
+- 提供简体中文、繁体中文、日语和英语界面，以及主题、背景设置、日志与诊断工具。
 
-2026-09-22 在 **Arch Linux + UMU 1.4.4 + UMU-Proton 10.0-4 + NTFS3 游戏目录**（Debug 构建）上验证了首次启动、登录、进入游戏、退出与再次启动，XignCode 反作弊未拦截。详见 [Linux 实机验证记录](./docs/design/linux-p0a-verification-2026-09-22.md)。
+上述游戏操作已接入现有实现；完整安装、更新、修复、卸载和游戏运行的端到端兼容性按实机验收结果确认。
 
-其他发行版、Proton 构建、显卡驱动组合**尚未验证**，不保证可玩；反作弊兼容性受这些因素影响，相关组件大版本更新后建议重新验证一次启动链路。
+## 从源码运行
 
-## 壁纸来源
+开发环境需要 [global.json](global.json) 指定的 .NET SDK `10.0.302`，以及 PowerShell 7（`pwsh`）。仓库脚本不支持 Windows PowerShell 5.1。构建启用可空引用类型、编译绑定和警告视为错误。
 
-启动器窗口背景由「设置 → 外观 → 背景」决定，共有三种来源，各自的图片出处如下。
+```powershell
+git clone https://github.com/gytxtx/StellaSora.Launcher.git
+cd StellaSora.Launcher
+```
 
-### 内置默认壁纸
-
-默认壁纸裁剪自 Pixiv 画师 **めるき（Meruki）** 的插画 **[初めてのゲーム](https://www.pixiv.net/artworks/142932674)**（作品 ID `142932674`）。
-
-- 随应用打包的文件是 `src/Cafe.Launcher.UI/Assets/launcher-background.png`（2560 × 1388），由原图居中裁剪并转为 PNG 后得到。
-- 原图与裁剪后的源素材一并存档在 [`docs/assets/art-sources/`](./docs/assets/art-sources/)，不参与应用打包：`142932674_p0.jpg` 为原始插画（2970 × 1610），`142932674_p0_cut.jpg` 为裁剪版本（2560 × 1388）。
-- 出处同时写在应用内的「设置 → 关于 → 法律信息」中，其中的「查看原始作品」会打开[该作品在 Pixiv 的页面](https://www.pixiv.net/artworks/142932674)。
-
-**插画版权归原作者 めるき（Meruki）所有。** 该图片仅作为启动器背景使用，不随本项目源代码的 MIT 许可证授权，也不得被单独提取用于其他用途。如需在其他场合使用，请自行联系原作者取得许可。
-
-### 远程壁纸
-
-选择「远程」时，启动器从游戏官方接口返回的启动器配置里读取背景图地址（`LauncherBackgroundImg`）及其 CRC64 校验值，下载后缓存到本地数据目录，并按窗口尺寸解码显示。该图片由 Yostar 官方接口提供，版权归其权利人所有，本项目不随发行包分发，也不对其内容负责。
-
-下载失败或接口未返回背景图配置时，启动器会回退到内置默认壁纸。
-
-### 自定义壁纸
-
-选择「自定义」后，可以指定本机的一张图片，或指定一个文件夹（每次刷新时从中随机挑选一张）。支持 `.png`、`.jpg`、`.jpeg`、`.bmp` 和 `.webp`。这类图片完全来自用户本机，版权与使用许可由用户自行负责，本项目不收集、不上传，也不分发。
-
-此外，仓库顶部的[主视觉图](./docs/assets/key-visual.png)与本项目各版本的发布横幅均为本项目自行制作的宣传物料，含有启动器界面的截图。
-
-## 帮助与反馈
-
-遇到问题时，先查看[常见问题](https://docs.bluearchive.cafe/cafe-launcher/faq)，再按[反馈指南](https://docs.bluearchive.cafe/cafe-launcher/feedback)准备启动器版本、复现步骤和必要的截图或诊断日志。
-
-可先搜索[已有 Issues](https://github.com/bluearchive-cafe/Cafe.Launcher.Avalonia/issues)；如果仓库暂时不允许新建 Issue，或问题不适合公开，可通过反馈指南中的邮箱联系项目组。日志可能包含本地路径等环境信息，分享前请自行检查。
-
-## 开发者指南
-
-本仓库是启动器的完整源代码，包含 Avalonia 宿主、表现层程序集、无 Avalonia 的应用核心、Windows 自更新 helper 及其 Core 类库，以及单元测试与 Headless UI 测试两个测试项目。
-
-| 项目 | 说明 |
-| --- | --- |
-| [`src/Cafe.Launcher`](./src/Cafe.Launcher/) | WinExe 宿主：进程生命周期、单实例、依赖注入组合根 |
-| [`src/Cafe.Launcher.UI`](./src/Cafe.Launcher.UI/) | Avalonia 表现层程序集：Views、ViewModel、主题、本地化资源与运行时资产 |
-| [`src/Cafe.Launcher.Core`](./src/Cafe.Launcher.Core/) | 无 Avalonia 的应用核心：协议、安装状态、网络传输、设置、下载与运行时 |
-| [`src/Cafe.Launcher.Updater.Core`](./src/Cafe.Launcher.Updater.Core/) | 自更新参数契约、校验、路径计划与应用实现 |
-| [`src/Cafe.Launcher.Updater`](./src/Cafe.Launcher.Updater/) | Windows 自更新 helper 宿主（单文件，复制到临时目录后调用 Core 应用更新） |
-| [`tests/Cafe.Launcher.Tests`](./tests/Cafe.Launcher.Tests/) | xUnit v3 单元测试 |
-| [`tests/Cafe.Launcher.HeadlessTests`](./tests/Cafe.Launcher.HeadlessTests/) | Avalonia Headless UI 测试，含金标截图基线 |
-
-### 环境要求
-
-- .NET SDK `10.0.302`（见 `global.json`，允许在同一功能带内滚动到较新的 SDK）。
-- 仓库脚本使用 PowerShell 7（`pwsh`）；Windows PowerShell 5.1 不受支持，因为脚本使用了其解析器不接受的 `??`。
-- 构建启用可空引用类型、编译绑定、代码风格检查与「警告视为错误」。一次成功的构建应当没有任何警告。
-
-### 构建与运行
-
-在 `pwsh` 中从仓库根目录执行：
+进入包含 Stella 接入代码的分支后，在仓库根目录执行：
 
 ```powershell
 .\build.ps1
 dotnet run --project .\src\Cafe.Launcher\Cafe.Launcher.csproj
 ```
 
-### 常用命令
+当前工程目录、解决方案、程序集与源码命名空间仍使用 `Cafe.Launcher`，因此构建命令中的名称保持不变。
+
+首次运行时通过设置向导选择游戏目录。当前游戏安装目录归一为 `YostarGames\StellaSora_CN`，启动入口为 `xtlr.exe`。接入已有官方安装目录前，请先备份其中的 `game-launcher-config.json` 与 `manifest.json`；状态互读尚在验收计划中。
+
+### 平台状态
+
+| 平台 | 当前范围 |
+| --- | --- |
+| Windows x64 | 主要开发与验收平台，已观察到实际下载；完整游戏启动链路待验收 |
+| macOS / Linux | 保留上游跨平台代码，尚未验证 Stella 的安装、运行与反作弊兼容性 |
+
+上游 Blue Archive 的平台验证记录仅适用于对应游戏与环境，不能视为 Stella 的兼容性结论。
+
+## 本地数据
+
+Windows 启动器数据保存在 `%LOCALAPPDATA%\StellaSora Launcher\`，包括设置、下载状态与日志。该目录与 Cafe Launcher 的数据目录独立。
+
+游戏目录中的 `game-launcher-config.json` 与 `manifest.json` 由安装状态存储协调管理。协议层覆盖了 Stella 配置变体，真实安装与官方启动器的双向识别仍需验收。
+
+## 开发与验证
 
 | 命令 | 用途 |
 | --- | --- |
-| `.\test.ps1` | 运行单元测试和 Headless UI 测试 |
-| `.\test.ps1 -Suite Unit` / `-Suite Headless` | 只运行一个测试套件（`All`/`Unit`/`Headless`） |
-| `.\test.ps1 -Filter "FullyQualifiedName~VersionComparerTests"` | 只运行过滤出的子集 |
-| `.\dev.ps1 ui` | 运行 UI 样式契约和 Headless UI 检查 |
+| `.\build.ps1` | 还原依赖并构建 Debug |
+| `.\test.ps1` | 运行单元测试与 Headless UI 测试 |
+| `.\test.ps1 -Suite Unit` / `.\test.ps1 -Suite Headless` | 运行指定测试套件 |
+| `.\test.ps1 -Filter "FullyQualifiedName~VersionComparerTests"` | 运行过滤后的测试 |
+| `.\dev.ps1 ui` | 检查 UI 样式契约与 Headless UI |
+| `.\scripts\Test-LocalizationContract.ps1` | 检查多语言资源键与格式占位符 |
 | `.\coverage.ps1` | 运行覆盖率门禁 |
-| `.\verify.ps1` | 完整流程：Debug 构建、覆盖率、Release 构建 |
-| `.\scripts\Test-LocalizationContract.ps1` | 检查多语言资源键和格式占位符 |
-| `.\scripts\Build-Distribution.ps1` | 发布并打包自包含发行包 |
-| `.\scripts\New-WindowsInstaller.ps1` | 从 `artifacts/publish/win-x64` 构建 Inno Setup 安装程序 |
+| `.\verify.ps1` | Debug 构建、覆盖率与 Release 构建的完整验证 |
 
-运行单个测试类：
+协议取证脚本 [Test-StellaProtocol.ps1](scripts/Test-StellaProtocol.ps1) 可采集官方 API 与 CDN 的有限只读样本，不下载整包或执行游戏。脚本需要本地官方 CN 启动器解包目录；默认路径为 `E:/Repos/_StellaSora_Gamelauncher/cn_app-32/resources/app`，也可通过 `-OfficialAppDirectory` 指定。输出默认位于 `artifacts/stella-protocol-probe`。
 
 ```powershell
-dotnet test .\tests\Cafe.Launcher.Tests\Cafe.Launcher.Tests.csproj --filter "FullyQualifiedName~VersionComparerTests"
+pwsh -NoProfile -File .\scripts\Test-StellaProtocol.ps1
 ```
 
-提交代码前请运行 `.\verify.ps1`。金标截图基线通过 `.\test.ps1 -UpdateGolden` 重新生成。
+2026-09-30 接入批次的完整验证通过：Debug/Release 构建零警告，单元测试 2353 通过、15 项平台跳过，Headless 测试 224 通过，Release 资源契约 23 通过。手写 C# 行覆盖率为 86.55%，分支覆盖率为 93.16%。这些结果验证代码与契约，不替代真实游戏安装和启动验收。
 
-### 代码结构
+### 工程结构
 
-```text
-src/Cafe.Launcher/       # WinExe 宿主：Program、App、组合根、单实例转发、崩溃进程拉起
-├── Composition/       # 依赖注入组合根
-├── Constants/         # 构建标识（BuildInfo）
-├── Services/          # 跨进程转发、关闭延迟、崩溃进程拉起
-├── Properties/        # InternalsVisibleTo（仅测试程序集）
-└── Assets/            # 图标流水线输入 app-icon-source.png
+| 项目 | 职责 |
+| --- | --- |
+| [src/Cafe.Launcher](src/Cafe.Launcher/) | 宿主、进程生命周期、单实例转发与依赖注入组合根 |
+| [src/Cafe.Launcher.UI](src/Cafe.Launcher.UI/) | Avalonia 界面、功能 ViewModel、主题、本地化与运行时资源 |
+| [src/Cafe.Launcher.Core](src/Cafe.Launcher.Core/) | 游戏协议、安装状态、网络传输、设置与游戏操作 |
+| [src/Cafe.Launcher.Updater.Core](src/Cafe.Launcher.Updater.Core/) | 自更新契约与应用实现，当前 Stella 产品未启用 |
+| [src/Cafe.Launcher.Updater](src/Cafe.Launcher.Updater/) | Windows 自更新 helper，当前 Stella 产品未启用 |
+| [tests/Cafe.Launcher.Tests](tests/Cafe.Launcher.Tests/) | xUnit v3 单元与契约测试 |
+| [tests/Cafe.Launcher.HeadlessTests](tests/Cafe.Launcher.HeadlessTests/) | Avalonia Headless UI 与金标截图测试 |
 
-src/Cafe.Launcher.Core/           # 无 Avalonia 的应用核心（协议、安装状态、传输、设置）
-src/Cafe.Launcher.UI/             # Avalonia 表现层：Views/ ViewModels/ Features/ Controls/
-                                  # Converters/ Models/ Helpers/ Services/ Resources/ Assets/
+依赖方向为宿主 → UI → Core → Updater.Core；宿主也直接引用 Core 与 Updater.Core。Core 不依赖 Avalonia。网络请求统一通过 `RemoteHttpTransport`，设置写入统一通过 `ISavedSettingsWriter`，游戏文件操作遵循路径校验与运行状态检查。
 
-src/Cafe.Launcher.Updater.Core/  # 自更新契约与应用实现
-src/Cafe.Launcher.Updater/       # Windows 自更新单文件宿主
-tests/
-├── Cafe.Launcher.Tests/          # xUnit 单元测试
-├── Cafe.Launcher.HeadlessTests/  # Avalonia Headless UI 测试
-└── Support/                      # 两个套件共用的测试设施
-```
+开发约定见 [AGENTS.md](AGENTS.md) 与 [PROJECT_CONVENTIONS.md](PROJECT_CONVENTIONS.md)，分层与档案设计见 [ADR-042](docs/design/adr/ADR-042-Avalonia启动器按Core与UI程序集分层.md)、[ADR-044](docs/design/adr/ADR-044-游戏与产品身份由档案声明并注入.md)。部分继承文档仍以 Cafe/Blue Archive 为背景，具体差异以本 README、Stella 档案和取证记录为准。
 
-工程目录名、`.csproj` 名、`AssemblyName`、`RootNamespace` 与源码命名空间同名（宿主是
-`Cafe.Launcher`，表现层是 `Cafe.Launcher.UI`），发行资产共用同一个产品 token；规则与取舍见
-[ADR-043](docs/design/adr/ADR-043-程序集与命名空间同名.md)。GitHub 仓库名
-（`Cafe.Launcher.Avalonia`）是历史标识，保持不变。
+## 后续计划
 
-### 架构要点
+1. 完成 Windows 隔离安装、官方配置与清单双向识别、暂停续传及中断恢复验收。
+2. 验证实际游戏首次启动、进程家族识别与反作弊兼容性。
+3. 在双样本证据基础上试点签名、校验、协议模型与序列化的共享库，保持产品策略独立。
+4. 完成程序集、图标、安装器和发行资产身份迁移，再配置独立发行通道及自动更新。
 
-- 程序集依赖是单向的：宿主 → UI → Core → Updater.Core（宿主也直接引用 Core 与 Updater.Core）。
-  Core 不得引用 Avalonia、MarkView、Material Icons 或 UI 资源；生产程序集之间禁止
-  `InternalsVisibleTo`（只允许测试程序集作为 friend）。分层规则见
-  [ADR-042](docs/design/adr/ADR-042-Avalonia启动器按Core与UI程序集分层.md)，命名规则见
-  [ADR-043](docs/design/adr/ADR-043-程序集与命名空间同名.md)。
-- `Composition/ServiceConfiguration.cs` 是唯一的依赖注入组合根；Core 的后端登记项由
-  `AddLauncherCore` 负责，组合根必须先调用它再注册表现层，容器反向释放时才会先释放 UI。
-  所有服务与 ViewModel 都是单例（单窗口桌面应用）。
-- `Features/` 按功能垂直组织；功能之间不引用彼此的具体类型，需要协作时把窄接口提取到 `Services/` 并在组合根绑定。`Features/Shell` 是窗口外壳层，聚合各功能的呈现 ViewModel，是这条规则的既定例外。
-- `Services/RemoteHttpTransport` 是唯一对外请求模块，统一负责代理、SSRF 校验、重定向、超时与重试；`Services/HttpClientFactory` 负责共享连接池与代理感知的租约，不要在别处新建 `HttpClient`。
-- 游戏文件操作必须经过 `Helpers/GamePathValidator`，确保始终落在规范化的 `YostarGames\BlueArchive_JP` 目录内。
-- 启动器数据根由组合根解析一次后注入各模块，不通过静态属性在运行期解析，便于测试隔离。
-- `settings.json` 只通过 `ISavedSettingsWriter` 写入，其余模块一律经 `LauncherSettingsService` 读取。
-- 界面文本必须同时补齐 `src/Cafe.Launcher.UI/Resources/LauncherStrings.resx` 及其 `zh-Hans`、`zh-Hant`、`ja` 对应文件，并按字母序排列。
+详细范围与验收条件见[后续计划](docs/design/yostar-reference-follow-up-plan-2026-09-30.md)。
 
-更完整的边界与约定见 [`AGENTS.md`](./AGENTS.md)、[`PROJECT_CONVENTIONS.md`](./PROJECT_CONVENTIONS.md)、[`CONTEXT.md`](./CONTEXT.md) 和 [`UBIQUITOUS_LANGUAGE.md`](./UBIQUITOUS_LANGUAGE.md)；设计决策记录见 [`docs/design/adr/`](./docs/design/adr/)。
+## 素材与许可
 
-### 测试
+源代码使用 [MIT License](LICENSE)，保留上游版权声明。第三方组件许可见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。游戏和插画素材不随源代码的 MIT 许可证授权。
 
-- 测试使用 xUnit v3；UI 测试使用 `Avalonia.Headless.XUnit`。
-- 测试命名遵循 `Method_State_ExpectedResult`；针对源码或资源的契约测试可用两段式 `Subject_Expectation`。
-- 不引入 mock 框架；优先使用手写的 `HttpMessageHandler` 子类、fake 和 stub，共用的存放在 `tests/TestDoubles/`。
-- 平台限定的测试用 `Assert.SkipUnless` / `Assert.SkipWhen` 显式跳过，而不是提前 `return`。
-- 改动 XAML 或样式后运行 `UiStyleContractTests`，较大改动运行 `.\dev.ps1 ui`。
+- **内置默认壁纸**：继续使用上游收录的 Pixiv 画师 [めるき（Meruki）](https://www.pixiv.net/users/15737611) 作品 [初めてのゲーム](https://www.pixiv.net/artworks/142932674)（ID `142932674`）。运行时文件为 [launcher-background.png](src/Cafe.Launcher.UI/Assets/launcher-background.png)，原始与裁剪素材存放于 [docs/assets/art-sources](docs/assets/art-sources/)。插画版权归原作者所有，仅作为启动器背景使用；用于其他场合需取得作者许可。
+- **远程素材**：背景、轮播、标识等来自游戏官方接口，权利归各自权利人所有。远程背景按官方返回的地址与 CRC64 下载并缓存，失败时回退到内置壁纸。
+- **自定义背景**：可选择本机图片或文件夹，支持 PNG、JPG、JPEG、BMP、WebP。使用许可由用户自行负责。
 
-### 参与贡献
+感谢 [Cafe Launcher](https://github.com/bluearchive-cafe/Cafe.Launcher.Avalonia) 的原作者与贡献者，以及 Avalonia、CommunityToolkit.Mvvm 等开源项目。
 
-- 提交问题前搜索已有 [Issues](https://github.com/bluearchive-cafe/Cafe.Launcher.Avalonia/issues)，并说明版本、运行平台和复现步骤。
-- 提交信息遵循 [Conventional Commits](https://www.conventionalcommits.org/)，例如 `fix(settings): 修复切换语言后法律信息不显示`。
-- 保持每个提交聚焦。涉及可见 UI 的改动请附截图；新增界面文本时同步维护所有语言资源。
-- 改动架构或开发流程时，请在同一次改动中更新 `AGENTS.md`。
+## 参与开发与反馈
 
-## 本地数据与许可
+本项目地址为 [gytxtx/StellaSora.Launcher](https://github.com/gytxtx/StellaSora.Launcher)。反馈请说明使用的提交或版本、平台、复现步骤，并提供必要的截图或诊断日志。
 
-Windows 默认将设置、下载状态和日志保存在 `%LOCALAPPDATA%\Cafe Launcher\`。游戏安装目录中的清单与配置文件用于记录安装状态，并与官方启动器兼容。卸载启动器默认不会删除游戏文件；数据清理说明见[卸载与数据](https://docs.bluearchive.cafe/cafe-launcher/uninstall)。
-
-项目源代码基于 [MIT License](./LICENSE) 发布。发行包中的第三方组件及其许可见 [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md)。
-
-内置默认壁纸的版权归画师 めるき（Meruki）所有，不在 MIT 许可证的授权范围内，详见[壁纸来源](#壁纸来源)。
-
-## 致谢
-
-- 默认壁纸来自 Pixiv 画师 [めるき（Meruki）](https://www.pixiv.net/users/15737611) 的插画 [初めてのゲーム](https://www.pixiv.net/artworks/142932674)，感谢作者创作了这幅作品。插画版权归原作者所有，本项目仅在启动器中将其用作背景，不主张任何权利。
-- 感谢 [Avalonia](https://avaloniaui.net/) 提供的跨平台 UI 框架，以及 [Material.Icons.Avalonia](https://github.com/SKProCH/Material.Icons.Avalonia)、[CommunityToolkit.Mvvm](https://github.com/CommunityToolkit/dotnet) 等开源项目。
-- 感谢所有提交问题、反馈和参与测试的社区成员。
+提交遵循 Conventional Commits，例如 `fix(stella): 修复安装状态读取`。界面文本变更需同步四种语言资源，架构与开发流程变更需同步仓库约定。
